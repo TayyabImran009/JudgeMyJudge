@@ -1,0 +1,5 @@
+<h1>Welcome</h1>
+<form method="POST" action="{% url 'logout' %}" class="form auth__form">
+    {% csrf_token %}
+    <input type="submit" value="Logout">
+</form>
