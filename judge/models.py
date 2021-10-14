@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -13,3 +14,12 @@ class judge (models.Model):
     position2 = models.CharField(max_length=100, null=True, blank=True)
     circuit_court = models.CharField(max_length=100, null=True, blank=True)
     position3 = models.CharField(max_length=100, null=True, blank=True)
+
+
+class judgeRateing (models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ratedTo = models.ForeignKey(judge, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username

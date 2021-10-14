@@ -4,4 +4,8 @@ from .import views
 
 urlpatterns = [
     path('load/', views.loadData, name='load'),
+
+    path('autocomplete/', views.autocomplete, name="autocomplete"),
+
+    path('getJudge/', views.getJudge, name="getJudge"),
 ]

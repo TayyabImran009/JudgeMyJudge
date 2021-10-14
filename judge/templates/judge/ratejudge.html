@@ -1,0 +1,145 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+
+{% include "head.html" %}
+{% include "sidebar.html" %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Judge</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <h2>{{judgeInfo.location}}</h2>
+              <div class="align-items-center">
+                <h4>3.0</h4>
+              </div> 
+              <div class="align-items-center">
+                <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                  <span class="fa fa-star"></span>
+              </div>             
+            </div>
+          </div>
+          
+            
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+                <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  <h5 class="card-title">About</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">location</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.location}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">general_district_court</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.general_district_court}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Position</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.position1}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">juvenile_domestic_court</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.juvenile_domestic_court}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Position</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.position2}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">circuit_court</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.circuit_court}}</div>
+                  </div>
+                
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Position</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.position3}}</div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="reviews">
+                    <h5 class="card-title">Reviews</h5>
+                    <div class="row">
+                      <div class="flex col-lg-3 col-md-4 label">
+                        <h4>
+                          Jack: 
+                          <i class="fa fa-thumbs-up fa-1px">4 </i>
+                          <i class="fa fa-thumbs-down fa-1x">3</i>
+                        </h4>
+                      </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam explicabo libero neque dolor dolore ad officia amet, minima voluptate eveniet?</p>
+                        
+                    </div>
+                    <br>
+                    
+                    <div class="row">
+                      <div class="flex col-lg-3 col-md-4 label">
+                        <h4>
+                          Malmo: 
+                          <i class="fa fa-thumbs-up fa-1px">4 </i>
+                          <i class="fa fa-thumbs-down fa-1x">3</i>
+                        </h4>
+                      </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam explicabo libero neque dolor dolore ad officia amet, minima voluptate eveniet?</p>
+                    </div>
+                    <br>
+                    
+                    <div class="row">
+                      <div class="flex col-lg-3 col-md-4 label">
+                        <h4>
+                          Johnny: 
+                          <i class="fa fa-thumbs-up fa-1px">4 </i>
+                          <i class="fa fa-thumbs-down fa-1x">3</i>
+                        </h4>
+                      </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam explicabo libero neque dolor dolore ad officia amet, minima voluptate eveniet?</p>
+                    </div>
+                    
+
+                </div>
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+{% endblock %}
