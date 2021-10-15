@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import*
 from registration.models import UserProfile
+from .forms import bestInterestForm
 # Create your views here.
 
 
@@ -37,10 +38,71 @@ def getJudge(request):
         search_query = request.GET.get('search_query')
         try:
             judgeInfo = judge.objects.get(location=search_query)
-            print(judgeInfo)
-            context = {'judgeInfo': judgeInfo, 'profile': profile}
+
+            try:
+                ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+            except User.DoesNotExist:
+                ratting = ''
+
+            context = {'judgeInfo': judgeInfo,
+                       'profile': profile, 'ratting': ratting}
             return render(request, 'judge/ratejudge.html', context)
         except User.DoesNotExist:
             owner = None
     else:
         return redirect('profile')
+
+
+def rateJudge(request, pk):
+    if request.method == 'POST':
+        user = request.user
+        ratedTo = judge.objects.get(id=request.POST['judge_id'])
+        rating = int(request.POST['score'])
+        description = request.POST['description']
+        cannon1 = request.POST['cannon1']
+        cannon2 = request.POST['cannon2']
+        cannon3 = request.POST['cannon3']
+        cannon4 = request.POST['cannon4']
+        cannon5 = request.POST['cannon5']
+        political_perspective_of_judge = request.POST['political_perspective_of_judge']
+        family_connections_in_legal_community = request.POST['family_connections_in_legal_community']
+
+        r = judgeRateing(user=user, ratedTo=ratedTo, rating=rating, description=description,
+                         cannon1=cannon1, cannon2=cannon2, cannon3=cannon3, cannon4=cannon4, cannon5=cannon5, political_perspective_of_judge=political_perspective_of_judge, family_connections_in_legal_community=family_connections_in_legal_community)
+        r.save()
+        judgeInfo = judge.objects.get(id=request.POST['judge_id'])
+        profile = UserProfile.objects.get(user=request.user)
+        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        context = {'judgeInfo': judgeInfo,
+                   'profile': profile, 'ratting': ratting}
+        return render(request, 'judge/ratejudge.html', context)
+    else:
+        judgeInfo = judge.objects.get(id=pk)
+        profile = UserProfile.objects.get(user=request.user)
+        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        context = {'judgeInfo': judgeInfo,
+                   'profile': profile, 'ratting': ratting}
+        return render(request, 'judge/ratejudge.html', context)
+
+
+def bestIntrest(request, pk):
+    if request.method == 'POST':
+        form = bestInterestForm(request.POST)
+        if form.is_valid():
+            bestInt = form.save(commit=False)
+            bestInt.user = request.user
+            bestInt.ratedTo = judge.objects.get(id=pk)
+            bestInt.save()
+            judgeInfo = judge.objects.get(id=pk)
+            profile = UserProfile.objects.get(user=request.user)
+            ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+            context = {'judgeInfo': judgeInfo,
+                       'profile': profile, 'ratting': ratting}
+            return render(request, 'judge/ratejudge.html', context)
+    else:
+        judgeInfo = judge.objects.get(id=pk)
+        profile = UserProfile.objects.get(user=request.user)
+        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        context = {'judgeInfo': judgeInfo,
+                   'profile': profile, 'ratting': ratting}
+        return render(request, 'judge/ratejudge.html', context)

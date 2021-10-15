@@ -4,3 +4,4 @@ from .models import*
 
 admin.site.register(judge)
 admin.site.register(judgeRateing)
+admin.site.register(bestInterest)

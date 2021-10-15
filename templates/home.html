@@ -1,5 +1,14 @@
-<h1>Welcome</h1>
-<form method="POST" action="{% url 'logout' %}" class="form auth__form">
-    {% csrf_token %}
-    <input type="submit" value="Logout">
-</form>
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<div class="banner">
+    <div class="welcomeData">
+        <h1>Desgine</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur velit minus fuga maxime, laborum exercitationem vel officia porro ullam voluptas.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, dolorem?</p>
+        <div>
+            <button class="btLogin" type="button">Login</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

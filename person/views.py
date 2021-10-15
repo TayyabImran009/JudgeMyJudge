@@ -46,3 +46,7 @@ def changePassword(request):
             return redirect('logout')
 
     return redirect('profile')
+
+
+def home(request):
+    return render(request, 'home.html')

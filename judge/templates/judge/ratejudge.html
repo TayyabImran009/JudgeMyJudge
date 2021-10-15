@@ -49,6 +49,14 @@
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button>
                 </li>
 
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rate-judge">Rate Judge</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#best-interest">Best Interest</button>
+                </li>
+
               </ul>
               <div class="tab-content pt-2">
 
@@ -94,44 +102,271 @@
 
                 <div class="tab-pane fade profile-edit pt-3" id="reviews">
                     <h5 class="card-title">Reviews</h5>
+                    {% for r in ratting %}
                     <div class="row">
                       <div class="flex col-lg-3 col-md-4 label">
                         <h4>
-                          Jack: 
-                          <i class="fa fa-thumbs-up fa-1px">4 </i>
-                          <i class="fa fa-thumbs-down fa-1x">3</i>
+                          {{r.user.first_name}}
                         </h4>
                       </div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam explicabo libero neque dolor dolore ad officia amet, minima voluptate eveniet?</p>
-                        
+                        <p>{{r.description}}</p>
                     </div>
-                    <br>
+                    {% endfor %}
                     
-                    <div class="row">
-                      <div class="flex col-lg-3 col-md-4 label">
-                        <h4>
-                          Malmo: 
-                          <i class="fa fa-thumbs-up fa-1px">4 </i>
-                          <i class="fa fa-thumbs-down fa-1x">3</i>
-                        </h4>
-                      </div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam explicabo libero neque dolor dolore ad officia amet, minima voluptate eveniet?</p>
-                    </div>
-                    <br>
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="rate-judge">
+                  <h5 class="card-title">Rate Judge</h5>
+                  <!-- Rate Judge Form -->
+                  <form method="POST" action="{% url 'rateJudge' judgeInfo.id %}" class="form auth__form" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+                    {% csrf_token %}
                     
-                    <div class="row">
-                      <div class="flex col-lg-3 col-md-4 label">
-                        <h4>
-                          Johnny: 
-                          <i class="fa fa-thumbs-up fa-1px">4 </i>
-                          <i class="fa fa-thumbs-down fa-1x">3</i>
-                        </h4>
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Rate</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="align-items-center">
+                            <span class="fa fa-star" id="star1"></span>
+                            <span class="fa fa-star" id="star2"></span>
+                            <span class="fa fa-star" id="star3"></span>
+                            <span class="fa fa-star" id="star4"></span>
+                            <span class="fa fa-star" id="star5"></span>
+                            <input name="score" type="hidden" id="score" value="">
+
+                        </div> 
                       </div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam explicabo libero neque dolor dolore ad officia amet, minima voluptate eveniet?</p>
                     </div>
+
+                    <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Description</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="description" type="text" class="form-control" id="description">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 1 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon1" type="text" class="form-control" id="cannon1">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 2 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon2" type="text" class="form-control" id="cannon2">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 3 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon3" type="text" class="form-control" id="cannon3">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 4 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon4" type="text" class="form-control" id="cannon4">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 5 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon5" type="text" class="form-control" id="cannon5">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Political Perspective Of Judge</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="political_perspective_of_judge" type="text" class="form-control" id="political_perspective_of_judge" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Family Connection In Legal Community</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="family_connections_in_legal_community" type="text" class="form-control" id="family_connections_in_legal_community" value="">
+                        </div>
+                      </div>
+
+                      <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">
+
                     
 
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Rate</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
                 </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="best-interest">
+                  <h5 class="card-title">Best Interest</h5>
+                  <!-- Rate Judge Form -->
+                  <form method="POST" action="{% url 'bestIntrest' judgeInfo.id %}" class="form auth__form" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Age</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_age" type="number" class="form-control" id="child_age">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Physical Condition</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_physical_condition" type="text" class="form-control" id="child_physical_condition">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Mental Condition</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_mental_health" type="text" class="form-control" id="child_mental_health">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Father Age</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="father_age" type="number" class="form-control" id="father_age">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Mother Age</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="mother_age" type="number" class="form-control" id="mother_age">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Father Physical Condition</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="father_physical_condition" type="text" class="form-control" id="father_physical_condition">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Mother Physical Condition </label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="mother_physical_condition" type="text" class="form-control" id="mother_physical_condition" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Father Mental Health</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="father_mental_health" type="text" class="form-control" id="father_mental_health" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Mother Mental Health</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="mother_mental_health" type="text" class="form-control" id="mother_mental_health" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Relation With Father</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="relation_with_father" type="text" class="form-control" id="relation_with_father" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Relation With Mother</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="relation_with_mother" type="text" class="form-control" id="relation_with_mother" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Involvement With Father</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="involvement_with_father" type="text" class="form-control" id="involvement_with_father" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Involvement With Mother</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="involvement_with_mother" type="text" class="form-control" id="involvement_with_mother" value="">
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Needs</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_needs" type="text" class="form-control" id="child_needs" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Relation With Siblings</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_relation_with_siblings" type="text" class="form-control" id="child_relation_with_siblings" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Relation With Family</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_relation_with_other_family" type="text" class="form-control" id="child_relation_with_other_family" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Father Roll</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="father_roll" type="text" class="form-control" id="father_roll" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Mother Roll</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="mother_roll" type="text" class="form-control" id="mother_roll" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Father Support</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="father_support" type="text" class="form-control" id="father_support" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Mother Support</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="mother_support" type="text" class="form-control" id="mother_support" value="">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Child Preference</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="child_preference" type="text" class="form-control" id="child_preference" value="">
+                        </div>
+                      </div>
+
+
+                      <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">
+
+                    
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Rate</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
+                </div>
+
               </div><!-- End Bordered Tabs -->
 
             </div>
