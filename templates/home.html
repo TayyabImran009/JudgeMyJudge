@@ -1,14 +1,121 @@
 {% extends "main.html" %}
 {% load static %}
 {% block content %}
-<div class="banner">
+<div class="banner2">
+    <div class="navbar2">
+        <div class="social-links">
+            <a href="#" class="twitter"><i class="bi bi-twitter fa-2x social_icion coloor"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook fa-2x social_icion coloor"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram fa-2x social_icion coloor"></i></a>
+          </div>
+
+          <ul>
+              <li><a href="{% url 'loginPage' %}">Login</a></li>
+          </ul>
+    </div>
     <div class="welcomeData">
-        <h1>Desgine</h1>
+        <h1>Judge <spam class="coloor2">My</spam> Judge</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur velit minus fuga maxime, laborum exercitationem vel officia porro ullam voluptas.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, dolorem?</p>
-        <div>
-            <button class="btLogin" type="button">Login</button>
-        </div>
+        
+        <div class="search-box2">
+            <form class="search-form d-flex align-items-center" method="GET" action="{% url 'getJudge' %}">
+              <input type="text" class="autocomplete" name="search_query" id="autocomplete" placeholder="Search Judge" title="Enter search keyword">
+            </form>
+          </div>
+
     </div>
 </div>
+
+
+<!-- services section start -->
+<section class="services section2" id="services">
+    <div class="max-width">
+        <h2 class="title">Our services</h2>
+        <div class="serv-content row">
+            <div class="card col-sm">
+                <div class="box">
+                    <i class="bi bi-pencil"></i>
+                    <div class="text">Manage and edit your ratings</div>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quia sunt, quasi quo illo enim.</p>
+                </div>
+            </div>
+            <div class="card col-sm">
+                <div class="box">
+                    <i class="bi bi-person"></i>
+                    <div class="text">Your ratings are always anonymous</div>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quia sunt, quasi quo illo enim.</p>
+                </div>
+            </div>
+            <div class="card col-sm">
+                <div class="box">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    <div class="text">Thumbs up or down ratings</div>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quia sunt, quasi quo illo enim.</p>
+                </div>
+            </div>
+           </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="contact section2" id="contact">
+    <div class="max-width">
+        <h2 class="title">Contact us</h2>
+        <div class="contact-content">
+            <div class="column left">
+                <div class="text">Get in Touch</div>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos harum corporis fuga corrupti. Doloribus quis soluta nesciunt veritatis vitae nobis?</p>
+                <div class="icons">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="bi bi-house"></i>
+                        </div>
+                        <div class="info col-sm">
+                            <div class="head">Address</div>
+                            <div class="sub-title">Surkhet, Nepal</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <div class="info col-sm">
+                            <div class="head">Email</div>
+                            <div class="sub-title">abc@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column right">
+                <div class="text">Message me</div>
+                <form action="#">
+                    <div class="fields">
+                        <div class="field name">
+                            <input type="text" placeholder="Name" required>
+                        </div>
+                        <div class="field email">
+                            <input type="email" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Subject" required>
+                    </div>
+                    <div class="field textarea">
+                        <textarea cols="30" rows="10" placeholder="Message.." required></textarea>
+                    </div>
+                    <div class="button-area">
+                        <button type="submit">Send message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <span>Judge <span class="coloor2">My</span> Judge</span>
+</footer>
+
 {% endblock %}
