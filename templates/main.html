@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel='stylesheet' type='text/css' media='screen' href='{%static "css/judge.css"%}'>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" >
     
 
 
@@ -36,13 +38,6 @@
     <title>JudgeMyJudge</title>
 </head>
 <body>
-  {% for message in messages %}
-      
-      <div class="alert alert-success">
-            {{ message }}
-      </div>
-
-  {% endfor %}
     {% block content %}
     
     {% endblock %}

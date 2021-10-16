@@ -28,6 +28,14 @@
                     <p class="text-center medium">Enter your personal details to create account</p>
                   </div>
 
+                  {% for message in messages %}
+      
+                      <div class="alert alert-success">
+                            {{ message }}
+                      </div>
+
+                  {% endfor %}
+
                   <form method="POST" action="{% url 'register' %}" class="form auth__form needs-validation" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
                     {% csrf_token %}
                     <div class="row">
@@ -146,6 +154,14 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
+
+                  {% for message in messages %}
+      
+                      <div class="alert alert-success">
+                            {{ message }}
+                      </div>
+
+                  {% endfor %}
 
                   <form action="" method="POST" class="row g-3 needs-validation" novalidate>
                     {% csrf_token %}

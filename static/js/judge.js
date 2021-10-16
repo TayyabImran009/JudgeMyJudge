@@ -1,13 +1,8 @@
-console.log(document.querySelector("#btn"));
 $(function () {
   $(".autocomplete").autocomplete({
     source: "/autocomplete/",
-    select: function (e, ui) {
-      document.querySelector(".searchformbtn").click();
-    },
   });
 });
-//
 
 //
 

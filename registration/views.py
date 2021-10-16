@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, UserProfileForm
 
+from .form import contactMesagesForm
+
 
 # Create your views here.
 
@@ -30,7 +32,7 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('profile')
+            return redirect('home')
         else:
             messages.error(request, 'Username or Password is invalid')
 
@@ -67,8 +69,17 @@ def registerUser(request):
 def logoutUser(request):
     logout(request)
     messages.info(request, "User loged out!")
-    return redirect('loginPage')
+    return redirect('home')
 
 
 def home(request):
+    if request.method == 'POST':
+        print("Post")
+        form = contactMesagesForm(request.POST)
+        if form.is_valid():
+            print("Valid")
+            form.save()
+            return redirect('home')
+    else:
+        print("Not post")
     return render(request, 'home.html')
