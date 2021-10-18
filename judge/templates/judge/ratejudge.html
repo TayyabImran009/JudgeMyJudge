@@ -16,16 +16,45 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-              <h2>{{judgeInfo.location}}</h2>
+              <h2>{{judgeInfo.name}}</h2>
               <div class="align-items-center">
-                <h4>3.0</h4>
+                {% if total_rating == 0 %}
+                <h4>N/A</h4>
+                {% else %}
+                <h4>{{total_rating}}</h4>
+                {% endif %}
               </div> 
               <div class="align-items-center">
+                {% if total_rating >= 1 %}
                 <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
+                {% else %}
+                <span class="fa fa-star"></span>
+                {% endif %}
+
+                {% if total_rating >= 2 %}
+                <span class="fa fa-star checked"></span>
+                {% else %}
+                <span class="fa fa-star"></span>
+                {% endif %}
+
+                {% if total_rating >= 3 %}
+                <span class="fa fa-star checked"></span>
+                {% else %}
+                <span class="fa fa-star"></span>
+                {% endif %}
+
+                {% if total_rating >= 4 %}
+                <span class="fa fa-star checked"></span>
+                {% else %}
+                <span class="fa fa-star"></span>
+                {% endif %}
+
+                {% if total_rating >= 5 %}
+                <span class="fa fa-star checked"></span>
+                {% else %}
+                <span class="fa fa-star"></span>
+                {% endif %}
+                
               </div>             
             </div>
           </div>
@@ -48,14 +77,16 @@
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button>
                 </li>
+                {% if request.user.is_authenticated %}
 
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rate-judge">Rate Judge</button>
-                </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rate-judge">Rate Judge</button>
+                  </li>
 
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#best-interest">Best Interest</button>
-                </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#best-interest">Best Interest</button>
+                  </li>
+                {% endif %}
 
               </ul>
               <div class="tab-content pt-2">
@@ -64,53 +95,124 @@
                   <h5 class="card-title">About</h5>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">location</div>
+                    <div class="col-lg-3 col-md-4 label ">Name</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.name}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Location</div>
                     <div class="col-lg-9 col-md-8">{{judgeInfo.location}}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">general_district_court</div>
-                    <div class="col-lg-9 col-md-8">{{judgeInfo.general_district_court}}</div>
-                  </div>
-
-                  <div class="row">
                     <div class="col-lg-3 col-md-4 label">Position</div>
-                    <div class="col-lg-9 col-md-8">{{judgeInfo.position1}}</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.position}}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">juvenile_domestic_court</div>
-                    <div class="col-lg-9 col-md-8">{{judgeInfo.juvenile_domestic_court}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Position</div>
-                    <div class="col-lg-9 col-md-8">{{judgeInfo.position2}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">circuit_court</div>
-                    <div class="col-lg-9 col-md-8">{{judgeInfo.circuit_court}}</div>
-                  </div>
-                
-
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Position</div>
-                    <div class="col-lg-9 col-md-8">{{judgeInfo.position3}}</div>
+                    <div class="col-lg-3 col-md-4 label">Coat Name</div>
+                    <div class="col-lg-9 col-md-8">{{judgeInfo.coat_name}}</div>
                   </div>
                 </div>
 
-                <div class="tab-pane fade profile-edit pt-3" id="reviews">
+                <div class="tab-pane fade profile-edit ratinglist pt-3" id="reviews">
                     <h5 class="card-title">Reviews</h5>
                     {% for r in ratting %}
-                    <div class="row">
-                      <div class="flex col-lg-3 col-md-4 label">
-                        <h4>
-                          {{r.user.first_name}}
-                        </h4>
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{r.user.username}}" aria-expanded="false" aria-controls="{{r.user.username}}">
+                            <h4>{{r.user.first_name}}</h4>
+                          </button>
+                        </h2>
+                        <div id="{{r.user.username}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <div class="row">
+
+                              <div class="col-lg-3 col-md-4 label ">Rating</div>
+                              <div class="col-lg-9 col-md-8">
+                              <div class="align-items-center">
+                                {% if r.rating >= 1 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                
+                                {% if r.rating >= 2 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                
+                                {% if r.rating >= 3 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                
+                                {% if r.rating >= 4 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                
+                                {% if r.rating >= 5 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                
+                              </div> 
+                            </div>
+
+                            <div><br></div>
+
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Discription</div>
+                              <div class="col-lg-9 col-md-8">{{r.description}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Cannon1</div>
+                              <div class="col-lg-9 col-md-8">{{r.cannon1}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Cannon2</div>
+                              <div class="col-lg-9 col-md-8">{{r.cannon2}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Cannon3</div>
+                              <div class="col-lg-9 col-md-8">{{r.cannon3}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Cannon4</div>
+                              <div class="col-lg-9 col-md-8">{{r.cannon4}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Cannon5</div>
+                              <div class="col-lg-9 col-md-8">{{r.cannon5}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Political Perspective Of Judge</div>
+                              <div class="col-lg-9 col-md-8">{{r.political_perspective_of_judge}}</div>
+                            </div>
+                            <div><br></div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-4 label ">Family Connections In Legal Community</div>
+                              <div class="col-lg-9 col-md-8">{{r.family_connections_in_legal_community}}</div>
+                            </div>
+                            <div><br></div>
+                          </div>
+                        </div>
                       </div>
-                        <p>{{r.description}}</p>
                     </div>
+                      
                     {% endfor %}
                     
                 </div>

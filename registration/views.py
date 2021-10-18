@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, UserProfileForm
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 from .form import contactMesagesForm
 
@@ -79,7 +82,13 @@ def home(request):
         if form.is_valid():
             print("Valid")
             form.save()
+            messages.success(request, 'Message sent successfully!')
+
+            subject = 'We got your message!'
+            message = 'Hi we got your message successfully!'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.POST['email']]
+            send_mail(subject, message, email_from, recipient_list)
+
             return redirect('home')
-    else:
-        print("Not post")
     return render(request, 'home.html')

@@ -3,7 +3,9 @@ from django.urls import path, include
 from .import views
 
 urlpatterns = [
-    path('load/', views.loadData, name='load'),
+    # path('load/', views.loadData, name='load'),
+
+    # path('removeSpace/', views.removeSpace, name='removeSpace'),
 
     path('autocomplete/', views.autocomplete, name="autocomplete"),
 

@@ -9,6 +9,14 @@
             <a href="#" class="instagram"><i class="bi bi-instagram fa-2x social_icion coloor"></i></a>
           </div>
 
+        {% for message in messages %}
+      
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
           <ul>
               {% if request.user.is_authenticated %}
               <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -24,8 +32,8 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, dolorem?</p>
         
         <div class="search-box2">
-            <form class="search-form d-flex align-items-center" method="GET" action="{% url 'getJudge' %}">
-              <input type="text" class="autocomplete" name="search_query" id="autocomplete"  placeholder="Search Judge..." title="Enter search keyword">
+            <form class="search-form d-flex align-items-center" id="btn_ser1" method="GET" action="{% url 'getJudge' %}">
+                <input type="text" class="autocomplete" name="search_query" id="autocomplete"  placeholder="Search Judge..." title="Enter search keyword">
             </form>
           </div>
 

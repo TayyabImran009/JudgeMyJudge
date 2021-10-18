@@ -1,3 +1,4 @@
+from django.forms.widgets import HiddenInput
 from django.shortcuts import render, redirect
 import csv
 from .models import judge
@@ -13,42 +14,64 @@ def loadData(request):
     with open('data.csv') as f:
         reader = csv.reader(f)
         for row in reader:
-            judge.objects.create(location=row[0], general_district_court=row[1], position1=row[2],
-                                 juvenile_domestic_court=row[3], position2=row[4], circuit_court=row[5], position3=row[6])
+            if row[1] != "":
+                judge.objects.create(location=row[0], name=row[1], position=row[2],
+                                     coat_name=row[3])
     return render(request, 'home.html')
 
 
-@login_required(login_url="loginPage")
+def removeSpace(request):
+    jd = judge.objects.all()
+    for j in jd:
+        j.location = j.location.rstrip()
+        j.save()
+    return render(request, 'home.html')
+
+
 def autocomplete(request):
     if 'term' in request.GET:
         judgeList = judge.objects.filter(
-            location__istartswith=request.GET.get('term'))
+            name__istartswith=request.GET.get('term'))
         searchJudge = list()
         for j in judgeList:
-            searchJudge.append(j.location)
+            searchJudge.append(j.name + ", " + j.location)
         return JsonResponse(searchJudge, safe=False)
 
 
-@login_required(login_url="loginPage")
 def getJudge(request):
+    profile = ""
     user = request.user
-    profile = UserProfile.objects.get(user=user)
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=user)
     search_query = ''
+    total_rating = 0
     if request.GET.get('search_query'):
-        search_query = request.GET.get('search_query')
+        s_query = request.GET.get('search_query')
+        s_query = s_query.split(',')
+        if s_query[0]:
+            j_name = s_query[0]
+        if s_query[1]:
+            j_location = s_query[1].replace(" ", "")
         try:
-            judgeInfo = judge.objects.get(location=search_query)
-
+            judgeInfo = judge.objects.get(
+                name=j_name, location=j_location)
             try:
                 ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+                total_num = (len(ratting))*5
+                obtain_num = 0
+                for r in ratting:
+                    obtain_num += r.rating
+                if total_num != 0:
+                    total_rating = (obtain_num/total_num)*5
+
             except User.DoesNotExist:
                 ratting = ''
 
             context = {'judgeInfo': judgeInfo,
-                       'profile': profile, 'ratting': ratting}
+                       'profile': profile, 'ratting': ratting, 'total_rating': total_rating}
             return render(request, 'judge/ratejudge.html', context)
         except User.DoesNotExist:
-            owner = None
+            judgeInfo = ""
     else:
         return redirect('profile')
 
@@ -73,15 +96,29 @@ def rateJudge(request, pk):
         judgeInfo = judge.objects.get(id=request.POST['judge_id'])
         profile = UserProfile.objects.get(user=request.user)
         ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        total_num = (len(ratting))*5
+        obtain_num = 0
+        for r in ratting:
+            obtain_num += r.rating
+        if total_num != 0:
+            total_rating = (obtain_num/total_num)*5
         context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting}
+                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating}
         return render(request, 'judge/ratejudge.html', context)
     else:
         judgeInfo = judge.objects.get(id=pk)
         profile = UserProfile.objects.get(user=request.user)
         ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        profile = UserProfile.objects.get(user=request.user)
+        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        total_num = (len(ratting))*5
+        obtain_num = 0
+        for r in ratting:
+            obtain_num += r.rating
+        if total_num != 0:
+            total_rating = (obtain_num/total_num)*5
         context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting}
+                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating}
         return render(request, 'judge/ratejudge.html', context)
 
 

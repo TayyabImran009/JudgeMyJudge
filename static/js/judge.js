@@ -1,6 +1,10 @@
 $(function () {
   $(".autocomplete").autocomplete({
     source: "/autocomplete/",
+    select: function (e, ui) {
+      document.getElementById("autocomplete").value = ui.item.value;
+      document.getElementById("btn_ser1").submit();
+    },
   });
 });
 
@@ -72,3 +76,19 @@ arr.forEach((item) =>
     setScore(event.target.id);
   })
 );
+
+var ratebyName = document.getElementsByClassName("rateby");
+for (var i = 0; i < ratebyName.length; i++) {
+  ratebyName[i].addEventListener("click", function (e) {
+    const tar =
+      e.target.parentElement.parentElement.querySelectorAll(
+        ".rating_details"
+      )[0];
+
+    if ((tar.style.display = "none")) {
+      tar.style.display = "block";
+    } else {
+      tar.style.display = "none";
+    }
+  });
+}
