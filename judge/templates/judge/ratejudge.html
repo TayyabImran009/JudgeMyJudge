@@ -17,6 +17,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
               <h2>{{judgeInfo.name}}</h2>
+              
               <div class="align-items-center">
                 {% if total_rating == 0 %}
                 <h4>N/A</h4>
@@ -78,14 +79,20 @@
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button>
                 </li>
                 {% if request.user.is_authenticated %}
-
+                  {% if canrate == True %}
+                    <li class="nav-item">
+                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rate-judge">Rate Judge</button>
+                    </li>
+                  {% else %}
                   <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rate-judge">Rate Judge</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit-rate">Edit Rating</button>
                   </li>
-
+                  {% endif %}
+                  {% if canbestintrest == True %}
                   <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#best-interest">Best Interest</button>
                   </li>
+                  {% endif %}
                 {% endif %}
 
               </ul>
@@ -128,7 +135,7 @@
                         <div id="{{r.user.username}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                           <div class="accordion-body">
                             <div class="row">
-
+ 
                               <div class="col-lg-3 col-md-4 label ">Rating</div>
                               <div class="col-lg-9 col-md-8">
                               <div class="align-items-center">
@@ -302,6 +309,123 @@
                       <button type="submit" class="btn btn-primary">Rate</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
+
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="edit-rate">
+                  <h5 class="card-title">Edit Ratting</h5>
+                  <!-- Rate Judge Form -->
+                  
+                  {% for r in ratting %}
+                  {% if r.user == request.user %}
+                  <form method="POST" action="{% url 'editRatting' judgeInfo.id %}" class="form auth__form" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Rate</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="align-items-center">
+                            {% if r.rating >= 1 %}
+                              <span class="fa fa-star checked" id="star1_1"></span>
+                            {% else %}
+                              <span class="fa fa-star" id="star1_1"></span>
+                            {% endif %}
+                            
+                            {% if r.rating >= 2 %}
+                              <span class="fa fa-star checked" id="star2_1"></span>
+                            {% else %}
+                              <span class="fa fa-star" id="star2_1"></span>
+                            {% endif %}
+                            
+                            {% if r.rating >= 3 %}
+                              <span class="fa fa-star checked" id="star3_1"></span>
+                            {% else %}
+                              <span class="fa fa-star" id="star3_1"></span>
+                            {% endif %}
+                            
+                            {% if r.rating >= 4 %}
+                              <span class="fa fa-star checked" id="star4_1"></span>
+                            {% else %}
+                              <span class="fa fa-star " id="star4_1"></span>
+                            {% endif %}
+                            
+                            {% if r.rating >= 5 %}
+                              <span class="fa fa-star checked" id="star5_1"></span>
+                            {% else %}
+                              <span class="fa fa-star" id="star5_1"></span>
+                            {% endif %}
+                            
+                            <input name="rating" type="hidden" id="rating" value="{{r.rating}}">
+
+                        </div> 
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Description</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="description" type="text" class="form-control" id="description" value="{{r.description}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 1 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon1" type="text" class="form-control" id="cannon1" value="{{r.cannon1}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 2 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon2" type="text" class="form-control" id="cannon2" value="{{r.cannon2}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 3 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon3" type="text" class="form-control" id="cannon3" value="{{r.cannon3}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 4 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon4" type="text" class="form-control" id="cannon4" value="{{r.cannon4}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Cannon 5 Details</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="cannon5" type="text" class="form-control" id="cannon5" value="{{r.cannon5}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Political Perspective Of Judge</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="political_perspective_of_judge" type="text" class="form-control" id="political_perspective_of_judge" value="{{r.political_perspective_of_judge}}">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Family Connection In Legal Community</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="family_connections_in_legal_community" type="text" class="form-control" id="family_connections_in_legal_community" value="{{r.family_connections_in_legal_community}}">
+                        </div>
+                      </div>
+
+                      <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">
+
+                    
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+                  {% endif %}
+                  {% endfor %}
 
                 </div>
 

@@ -8,7 +8,17 @@ $(function () {
   });
 });
 
-//
+// $(function () {
+//   $(".autocompleteLocation").autocomplete({
+//     source: "/autocompleteLocation/",
+//     select: function (e, ui) {
+//       document.getElementById("autocompleteLocation").value = ui.item.value;
+//       document.getElementById("btn_ser2").submit();
+//     },
+//   });
+// });
+
+//Add
 
 const star1 = document.getElementById("star1");
 const star2 = document.getElementById("star2");
@@ -77,18 +87,71 @@ arr.forEach((item) =>
   })
 );
 
-var ratebyName = document.getElementsByClassName("rateby");
-for (var i = 0; i < ratebyName.length; i++) {
-  ratebyName[i].addEventListener("click", function (e) {
-    const tar =
-      e.target.parentElement.parentElement.querySelectorAll(
-        ".rating_details"
-      )[0];
+//Edit
 
-    if ((tar.style.display = "none")) {
-      tar.style.display = "block";
-    } else {
-      tar.style.display = "none";
+const star1_1 = document.getElementById("star1_1");
+const star2_1 = document.getElementById("star2_1");
+const star3_1 = document.getElementById("star3_1");
+const star4_1 = document.getElementById("star4_1");
+const star5_1 = document.getElementById("star5_1");
+
+var rating = document.getElementById("rating");
+
+const arr2 = [star1_1, star2_1, star3_1, star4_1, star5_1];
+
+const setScore2 = (selection) => {
+  switch (selection) {
+    case "star1_1": {
+      star1_1.classList.add("checked");
+      star2_1.classList.remove("checked");
+      star3_1.classList.remove("checked");
+      star4_1.classList.remove("checked");
+      star5_1.classList.remove("checked");
+      rating.value = 1;
+      return;
     }
-  });
-}
+
+    case "star2_1": {
+      star1_1.classList.add("checked");
+      star2_1.classList.add("checked");
+      star3_1.classList.remove("checked");
+      star4_1.classList.remove("checked");
+      star5_1.classList.remove("checked");
+      rating.value = 2;
+      return;
+    }
+    case "star3_1": {
+      star1_1.classList.add("checked");
+      star2_1.classList.add("checked");
+      star3_1.classList.add("checked");
+      star4_1.classList.remove("checked");
+      star5_1.classList.remove("checked");
+      rating.value = 3;
+      return;
+    }
+    case "star4_1": {
+      star1_1.classList.add("checked");
+      star2_1.classList.add("checked");
+      star3_1.classList.add("checked");
+      star4_1.classList.add("checked");
+      star5_1.classList.remove("checked");
+      rating.value = 4;
+      return;
+    }
+    case "star5_1": {
+      star1_1.classList.add("checked");
+      star2_1.classList.add("checked");
+      star3_1.classList.add("checked");
+      star4_1.classList.add("checked");
+      star5_1.classList.add("checked");
+      rating.value = 5;
+      return;
+    }
+  }
+};
+
+arr2.forEach((item) =>
+  item.addEventListener("click", (event) => {
+    setScore2(event.target.id);
+  })
+);

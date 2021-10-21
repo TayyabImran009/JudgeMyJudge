@@ -6,6 +6,38 @@
   position: absolute;
   cursor: default;
   z-index: 4000 !important;
+  background-color: aqua !important;
+}
+
+.match-list {
+  max-height: 200px;
+  white-space: nowrap;
+  overflow-y: auto;
+  position: relative;
+  background-color: white;
+  z-index: 9999;
+}
+
+.match-list::-webkit-scrollbar {
+  display: none;
+}
+
+.match-list :hover {
+  background-color: #009688;
+}
+
+.searchJudge {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+.displayNames {
+  height: 50px;
+  color: black;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .hpage {

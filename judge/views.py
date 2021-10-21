@@ -6,7 +6,8 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import*
 from registration.models import UserProfile
-from .forms import bestInterestForm
+from .forms import bestInterestForm, judgeRateingForm
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -38,9 +39,39 @@ def autocomplete(request):
         return JsonResponse(searchJudge, safe=False)
 
 
+def autocompleteLocation(request):
+    if 'term' in request.GET:
+        judgeList = judge.objects.filter(
+            location__istartswith=request.GET.get('term'))
+        searchJudge = list()
+        for j in judgeList:
+            if j.location not in searchJudge:
+                searchJudge.append(j.location)
+        return JsonResponse(searchJudge, safe=False)
+
+
+def autocomplete2(request, pk):
+    j = judge.objects.filter(
+        name__istartswith=pk).values()
+    jugeslist = list(j)
+
+    return JsonResponse({'jugeslist': jugeslist})
+
+
+def getJudgeByLocation(request):
+    if request.GET.get('search_query'):
+        judgeList = judge.objects.filter(
+            location=request.GET.get('search_query'))
+        location = judgeList[0].location
+        context = {'judgeList': judgeList, 'location': location}
+    return render(request, 'judge/judgesByLocation.html', context)
+
+
 def getJudge(request):
     profile = ""
     user = request.user
+    canrate = True
+    canbestintrest = True
     if request.user.is_authenticated:
         profile = UserProfile.objects.get(user=user)
     search_query = ''
@@ -61,14 +92,24 @@ def getJudge(request):
                 obtain_num = 0
                 for r in ratting:
                     obtain_num += r.rating
+                    if r.user == request.user:
+                        canrate = False
                 if total_num != 0:
                     total_rating = (obtain_num/total_num)*5
 
             except User.DoesNotExist:
                 ratting = ''
 
+            try:
+                bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
+                for r in bestIntrest:
+                    if r.user == request.user:
+                        canbestintrest = False
+
+            except User.DoesNotExist:
+                bestIntrest = ''
             context = {'judgeInfo': judgeInfo,
-                       'profile': profile, 'ratting': ratting, 'total_rating': total_rating}
+                       'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
             return render(request, 'judge/ratejudge.html', context)
         except User.DoesNotExist:
             judgeInfo = ""
@@ -77,6 +118,8 @@ def getJudge(request):
 
 
 def rateJudge(request, pk):
+    canrate = True
+    canbestintrest = True
     if request.method == 'POST':
         user = request.user
         ratedTo = judge.objects.get(id=request.POST['judge_id'])
@@ -100,10 +143,21 @@ def rateJudge(request, pk):
         obtain_num = 0
         for r in ratting:
             obtain_num += r.rating
+            canrate = False
         if total_num != 0:
             total_rating = (obtain_num/total_num)*5
+
+        try:
+            bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
+            for r in bestIntrest:
+                if r.user == request.user:
+                    canbestintrest = False
+
+        except User.DoesNotExist:
+            bestIntrest = ''
+
         context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating}
+                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
         return render(request, 'judge/ratejudge.html', context)
     else:
         judgeInfo = judge.objects.get(id=pk)
@@ -115,14 +169,26 @@ def rateJudge(request, pk):
         obtain_num = 0
         for r in ratting:
             obtain_num += r.rating
+            if r.user == request.user:
+                canrate = False
         if total_num != 0:
             total_rating = (obtain_num/total_num)*5
+        try:
+            bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
+            for r in ratting:
+                if r.bestIntrest == request.user:
+                    canbestintrest = False
+
+        except User.DoesNotExist:
+            bestIntrest = ''
         context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating}
+                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
         return render(request, 'judge/ratejudge.html', context)
 
 
 def bestIntrest(request, pk):
+    canrate = True
+    canbestintrest = True
     if request.method == 'POST':
         form = bestInterestForm(request.POST)
         if form.is_valid():
@@ -143,3 +209,78 @@ def bestIntrest(request, pk):
         context = {'judgeInfo': judgeInfo,
                    'profile': profile, 'ratting': ratting}
         return render(request, 'judge/ratejudge.html', context)
+
+
+def editRatting(request, pk):
+
+    canrate = True
+    canbestintrest = True
+    judgeInfo = judge.objects.get(id=pk)
+    inst = judgeRateing.objects.get(user=request.user, ratedTo=judgeInfo)
+    if request.method == 'POST':
+        form = judgeRateingForm(request.POST, instance=inst)
+        form.save()
+        if form.is_valid():
+            form.save()
+            profile = UserProfile.objects.get(user=request.user)
+            ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+            profile = UserProfile.objects.get(user=request.user)
+            ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+            total_num = (len(ratting))*5
+            obtain_num = 0
+            for r in ratting:
+                obtain_num += r.rating
+                if r.user == request.user:
+                    canrate = False
+            if total_num != 0:
+                total_rating = (obtain_num/total_num)*5
+            try:
+                bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
+                for r in bestIntrest:
+                    if r.user == request.user:
+                        canbestintrest = False
+
+            except User.DoesNotExist:
+                bestIntrest = ''
+            context = {'judgeInfo': judgeInfo,
+                       'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
+            return render(request, 'judge/ratejudge.html', context)
+    return redirect('rateJudge/pk')
+
+
+def getJudge2(request, pk):
+    print("Here")
+    print("Get")
+    profile = ""
+    user = request.user
+    canrate = True
+    canbestintrest = True
+    total_rating = 0
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=user)
+    judgeInfo = judge.objects.get(id=pk)
+    try:
+        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        total_num = (len(ratting))*5
+        obtain_num = 0
+        for r in ratting:
+            obtain_num += r.rating
+            if r.user == request.user:
+                canrate = False
+        if total_num != 0:
+            total_rating = (obtain_num/total_num)*5
+
+    except User.DoesNotExist:
+        ratting = ''
+
+    try:
+        bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
+        for r in bestIntrest:
+            if r.user == request.user:
+                canbestintrest = False
+    except User.DoesNotExist:
+        ratting = ''
+    context = {'judgeInfo': judgeInfo,
+               'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
+    template_name = "judge/ratejudge.html"
+    return render(request, 'judge/ratejudge.html', context)
