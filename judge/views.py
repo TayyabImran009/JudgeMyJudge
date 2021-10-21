@@ -249,8 +249,6 @@ def editRatting(request, pk):
 
 
 def getJudge2(request, pk):
-    print("Here")
-    print("Get")
     profile = ""
     user = request.user
     canrate = True
