@@ -19,38 +19,38 @@
               <h2>{{judgeInfo.name}}</h2>
               
               <div class="align-items-center">
-                {% if total_rating == 0 %}
+                {% if judgeInfo.totalRating == 0 %}
                 <h4>N/A</h4>
                 {% else %}
-                <h4>{{total_rating}}</h4>
+                <h4>{{judgeInfo.totalRating}}</h4>
                 {% endif %}
               </div> 
               <div class="align-items-center">
-                {% if total_rating >= 1 %}
+                {% if judgeInfo.totalRating >= 1 %}
                 <span class="fa fa-star checked"></span>
                 {% else %}
                 <span class="fa fa-star"></span>
                 {% endif %}
 
-                {% if total_rating >= 2 %}
+                {% if judgeInfo.totalRating >= 2 %}
                 <span class="fa fa-star checked"></span>
                 {% else %}
                 <span class="fa fa-star"></span>
                 {% endif %}
 
-                {% if total_rating >= 3 %}
+                {% if judgeInfo.totalRating >= 3 %}
                 <span class="fa fa-star checked"></span>
                 {% else %}
                 <span class="fa fa-star"></span>
                 {% endif %}
 
-                {% if total_rating >= 4 %}
+                {% if judgeInfo.totalRating >= 4 %}
                 <span class="fa fa-star checked"></span>
                 {% else %}
                 <span class="fa fa-star"></span>
                 {% endif %}
 
-                {% if total_rating >= 5 %}
+                {% if judgeInfo.totalRating >= 5 %}
                 <span class="fa fa-star checked"></span>
                 {% else %}
                 <span class="fa fa-star"></span>

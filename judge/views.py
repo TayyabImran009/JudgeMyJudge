@@ -58,12 +58,20 @@ def autocomplete2(request, pk):
     return JsonResponse({'jugeslist': jugeslist})
 
 
-def getJudgeByLocation(request):
-    if request.GET.get('search_query'):
-        judgeList = judge.objects.filter(
-            location=request.GET.get('search_query'))
-        location = judgeList[0].location
-        context = {'judgeList': judgeList, 'location': location}
+def autocomplete3(request, pk):
+    judgesList = judge.objects.filter(
+        location__istartswith=pk)
+    locationlist = list()
+    for l in judgesList:
+        if l.location not in locationlist:
+            locationlist.append(l.location)
+    return JsonResponse({'locationlist': locationlist})
+
+
+def getJudgeByLocation(request, name):
+    judgeList = judge.objects.filter(location=name)
+    location = judgeList[0].location
+    context = {'judgeList': judgeList, 'location': location}
     return render(request, 'judge/judgesByLocation.html', context)
 
 
@@ -120,9 +128,10 @@ def getJudge(request):
 def rateJudge(request, pk):
     canrate = True
     canbestintrest = True
+    user = request.user
+    ratedTo = judge.objects.get(id=pk)
+    ratting = judgeRateing.objects.filter(ratedTo=ratedTo)
     if request.method == 'POST':
-        user = request.user
-        ratedTo = judge.objects.get(id=request.POST['judge_id'])
         rating = int(request.POST['score'])
         description = request.POST['description']
         cannon1 = request.POST['cannon1']
@@ -133,56 +142,48 @@ def rateJudge(request, pk):
         political_perspective_of_judge = request.POST['political_perspective_of_judge']
         family_connections_in_legal_community = request.POST['family_connections_in_legal_community']
 
+        ratedTo.numberOfRatings += 1
+        ratedTo.obtainScore += rating
+        ratedTo.save()
+
         r = judgeRateing(user=user, ratedTo=ratedTo, rating=rating, description=description,
                          cannon1=cannon1, cannon2=cannon2, cannon3=cannon3, cannon4=cannon4, cannon5=cannon5, political_perspective_of_judge=political_perspective_of_judge, family_connections_in_legal_community=family_connections_in_legal_community)
         r.save()
-        judgeInfo = judge.objects.get(id=request.POST['judge_id'])
-        profile = UserProfile.objects.get(user=request.user)
-        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
-        total_num = (len(ratting))*5
-        obtain_num = 0
-        for r in ratting:
-            obtain_num += r.rating
-            canrate = False
-        if total_num != 0:
-            total_rating = (obtain_num/total_num)*5
+
+        updateRatting(pk)
+
+        ratedTo = judge.objects.get(id=pk)
+        ratting = judgeRateing.objects.filter(ratedTo=ratedTo)
 
         try:
-            bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
-            for r in bestIntrest:
-                if r.user == request.user:
+            bestIntrest = bestInterest.objects.filter(ratedTo=pk)
+            for b in bestIntrest:
+                if b.user == request.user:
                     canbestintrest = False
-
         except User.DoesNotExist:
             bestIntrest = ''
 
-        context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
-        return render(request, 'judge/ratejudge.html', context)
-    else:
-        judgeInfo = judge.objects.get(id=pk)
-        profile = UserProfile.objects.get(user=request.user)
-        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
-        profile = UserProfile.objects.get(user=request.user)
-        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
-        total_num = (len(ratting))*5
-        obtain_num = 0
         for r in ratting:
-            obtain_num += r.rating
             if r.user == request.user:
                 canrate = False
-        if total_num != 0:
-            total_rating = (obtain_num/total_num)*5
-        try:
-            bestIntrest = bestInterest.objects.filter(ratedTo=judgeInfo)
-            for r in ratting:
-                if r.bestIntrest == request.user:
-                    canbestintrest = False
 
+        context = {'judgeInfo': ratedTo,
+                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting}
+        return render(request, 'judge/ratejudge.html', context)
+    else:
+        try:
+            bestIntrest = bestInterest.objects.filter(ratedTo=pk)
+            for b in bestIntrest:
+                if b.user == request.user:
+                    canbestintrest = False
         except User.DoesNotExist:
             bestIntrest = ''
-        context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
+
+        for r in ratting:
+            if r.user == request.user:
+                canrate = False
+        context = {'judgeInfo': ratedTo,
+                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting}
         return render(request, 'judge/ratejudge.html', context)
 
 
@@ -282,3 +283,10 @@ def getJudge2(request, pk):
                'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
     template_name = "judge/ratejudge.html"
     return render(request, 'judge/ratejudge.html', context)
+
+
+def updateRatting(pk):
+    judgeInstance = judge.objects.get(id=pk)
+    judgeInstance.totalRating = (
+        judgeInstance.obtainScore/(judgeInstance.numberOfRatings*5))*5
+    judgeInstance.save()

@@ -8,18 +8,6 @@ $(function () {
   });
 });
 
-// $(function () {
-//   $(".autocompleteLocation").autocomplete({
-//     source: "/autocompleteLocation/",
-//     select: function (e, ui) {
-//       document.getElementById("autocompleteLocation").value = ui.item.value;
-//       document.getElementById("btn_ser2").submit();
-//     },
-//   });
-// });
-
-//Add
-
 const star1 = document.getElementById("star1");
 const star2 = document.getElementById("star2");
 const star3 = document.getElementById("star3");

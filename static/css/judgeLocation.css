@@ -1,0 +1,23 @@
+.starPeddingInJudgeLocation {
+  padding-top: 17px;
+}
+
+.headingInJudgeLocation {
+  color: #0000ff94;
+  padding: 10px;
+  align-items: center;
+}
+
+.topRatedJudge {
+  align-items: left;
+  max-width: 50%;
+}
+.leftJudges {
+  position: relative;
+  padding-left: 0px;
+}
+
+.rightJudges {
+  position: relative;
+  padding-left: 50%;
+}

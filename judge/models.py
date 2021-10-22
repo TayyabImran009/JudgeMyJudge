@@ -11,6 +11,9 @@ class judge (models.Model):
     position = models.CharField(max_length=100, null=True, blank=True)
     coat_name = models.CharField(
         max_length=100, null=True, blank=True)
+    numberOfRatings = models.IntegerField(default=0)
+    obtainScore = models.IntegerField(default=0)
+    totalRating = models.IntegerField(default=0) 
 
     def __str__(self):
         return self.name

@@ -1,0 +1,39 @@
+.searchLocation {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+.match-list2 {
+  max-height: 200px;
+  white-space: nowrap;
+  overflow-y: auto;
+  position: relative;
+  background-color: white;
+  z-index: 9999;
+}
+
+.match-list2::-webkit-scrollbar {
+  display: none;
+}
+
+.match-list2 :hover {
+  background-color: #009688;
+}
+
+.displayLocation {
+  height: 50px;
+  color: black;
+  text-align: left;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.lName {
+  padding-left: 10px;
+}
+
+.sOpHead {
+  padding-top: 10px;
+}

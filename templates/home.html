@@ -32,7 +32,7 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur velit minus fuga maxime, laborum exercitationem vel officia porro ullam voluptas.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, dolorem?</p>
 
-        <div class="container mt-5">
+        <div class="container mt-5" id="sDiv1">
             <div class="row">
                 <div class ="col-md-4 m-auto">
                     <div class="form-group">
@@ -41,23 +41,22 @@
                     <div class="match-list" id="match-list">
                     </div>
                 </div>
+                <p id="sOptions1">Search By Location...</p>
             </div>
-
         </div>
-        
-        <!-- <div class="search-box2">
-            <form class="search-form d-flex align-items-center" id="btn_ser1" method="GET" action="{% url 'getJudge' %}">
-                <input type="text" class="autocomplete" name="search_query" id="autocomplete"  placeholder="Search Judge..." title="Enter search keyword">
-            </form>
-            <p class="howToSearch">Search by location</p>
-        </div> -->
-        <!-- <div class="search-box2">
-            <form class="search-form d-flex align-items-center" id="btn_ser1" method="GET" action="{% url 'getJudgeByLocation' %}">
-                <input type="text" class="autocompleteLocation" name="search_query" id="autocompleteLocation"  placeholder="Search Judge..." title="Enter search keyword">
-                <button type="submit" name="btn_ser2" id="btn_ser2">
-            </form>
-            <p class="howToSearch">Search by Name</p>
-        </div> -->
+
+        <div class="container mt-5" id="sDiv2" style="display: none;">
+            <div class="row">
+                <div class ="col-md-4 m-auto">
+                    <div class="form-group">
+                        <input type="text" id="searchLocation" class="form-control form-control-lg searchLocation" placeholder="&#xF002; Enter The Name of Location...">
+                    </div>
+                    <div class="match-list2" id="match-list2">
+                    </div>
+                </div>
+                <p id="sOptions2">Search By Name...</p>
+            </div>
+        </div>
 
     </div>
 </div>
