@@ -4,6 +4,20 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class tags(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class categories(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
 class judge (models.Model):
     location = models.CharField(max_length=100, null=True, blank=True)
     name = models.CharField(
@@ -12,8 +26,9 @@ class judge (models.Model):
     coat_name = models.CharField(
         max_length=100, null=True, blank=True)
     numberOfRatings = models.IntegerField(default=0)
-    obtainScore = models.IntegerField(default=0)
-    totalRating = models.IntegerField(default=0) 
+    obtainScore = models.FloatField(default=0)
+    totalRating = models.FloatField(default=0)
+    tags = models.ManyToManyField(tags, blank=True)
 
     def __str__(self):
         return self.name
@@ -22,7 +37,7 @@ class judge (models.Model):
 class judgeRateing (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ratedTo = models.ForeignKey(judge, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=0)
+    rating = models.FloatField(default=0)
     description = models.TextField(max_length=9999, null=True, blank=True)
     cannon1 = models.CharField(max_length=200, null=True, blank=True)
     cannon2 = models.CharField(max_length=200, null=True, blank=True)
@@ -33,6 +48,14 @@ class judgeRateing (models.Model):
         max_length=200, null=True, blank=True)
     family_connections_in_legal_community = models.CharField(
         max_length=200, null=True, blank=True)
+    category = models.ForeignKey(
+        categories, on_delete=models.CASCADE, blank=True, null=True)
+    total_likes = models.FloatField(default=0.0)
+    total_dislikes = models.FloatField(default=0.0)
+    likeBy = models.ManyToManyField(
+        User, related_name='userWhoLike', blank=True)
+    dislikeBy = models.ManyToManyField(
+        User, related_name='userWhoDislike', blank=True)
 
     def __str__(self):
         return self.user.username

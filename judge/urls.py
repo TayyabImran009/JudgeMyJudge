@@ -29,4 +29,7 @@ urlpatterns = [
 
     path('autocomplete3/<str:pk>', views.autocomplete3, name="autocomplete3"),
 
+    path('likereview/', views.likereview, name="likereview"),
+    path('dislikeReview/', views.dislikeReview, name="dislikeReview"),
+
 ]

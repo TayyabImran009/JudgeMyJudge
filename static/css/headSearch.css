@@ -1,0 +1,72 @@
+/* For Judges Search Bar */
+
+.headMatchList1 {
+  max-height: 200px;
+  white-space: nowrap;
+  overflow-y: auto;
+  position: fixed;
+  background-color: white;
+  width: 325px;
+  z-index: 9999;
+  border-top: 20px;
+}
+
+.headMatchList1::-webkit-scrollbar {
+  display: none;
+}
+
+.headMatchList1 :hover {
+  background-color: #009688;
+}
+
+.headSearchJudge {
+  font-family: FontAwesome;
+  width: 325px;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+.displayHeadNames {
+  height: 50px;
+  color: black;
+  text-align: left;
+  padding-left: 10px;
+}
+
+/* For Location Search Bar */
+
+.headMatchList2 {
+  max-height: 200px;
+  white-space: nowrap;
+  overflow-y: auto;
+  position: fixed;
+  background-color: white;
+  width: 325px;
+  z-index: 9999;
+  border-top: 20px;
+}
+
+.headMatchList2::-webkit-scrollbar {
+  display: none;
+}
+
+.headMatchList2 :hover {
+  background-color: #009688;
+}
+
+.headSearchLocation {
+  font-family: FontAwesome;
+  width: 325px;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+.displayHeadLocation {
+  height: 50px;
+  color: black;
+  text-align: left;
+  padding-left: 10px;
+  padding-top: 10px;
+}

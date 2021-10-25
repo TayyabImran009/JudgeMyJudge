@@ -8,14 +8,20 @@
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
-  
+
     <div class="search-bar">
-      <form class="search-form d-flex align-items-center" id="btn_ser1" method="GET" action="{% url 'getJudge' %}">
-        <input type="text" class="autocomplete" name="search_query" id="autocomplete"  placeholder="Search Judge..." title="Enter search keyword">
-        <button class="searchformbtn" id="btn00909" type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
+      <input type="text" id="headSearchJudge" class="form-control form-control-lg headSearchJudge" placeholder="&#xF002; Enter The Name of Judge...">
+      <div class="headMatchList1" id="headMatchList1">
+      </div>
+    </div>
+
+    <div class="search-bar2">
+      <input type="text" id="headSearchLocation" class="form-control form-control-lg headSearchLocation" placeholder="&#xF002; Enter The Name of Location...">
+      <div class="headMatchList2" id="headMatchList2">
+      </div>
     </div><!-- End Search Bar -->
   
+
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
   

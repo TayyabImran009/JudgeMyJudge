@@ -130,6 +130,7 @@ def rateJudge(request, pk):
     canbestintrest = True
     user = request.user
     ratedTo = judge.objects.get(id=pk)
+    category_list = categories.objects.all()
     ratting = judgeRateing.objects.filter(ratedTo=ratedTo)
     if request.method == 'POST':
         rating = int(request.POST['score'])
@@ -141,13 +142,15 @@ def rateJudge(request, pk):
         cannon5 = request.POST['cannon5']
         political_perspective_of_judge = request.POST['political_perspective_of_judge']
         family_connections_in_legal_community = request.POST['family_connections_in_legal_community']
+        print(request.POST['category'])
+        category = categories.objects.get(name=request.POST['category'])
 
         ratedTo.numberOfRatings += 1
         ratedTo.obtainScore += rating
         ratedTo.save()
 
         r = judgeRateing(user=user, ratedTo=ratedTo, rating=rating, description=description,
-                         cannon1=cannon1, cannon2=cannon2, cannon3=cannon3, cannon4=cannon4, cannon5=cannon5, political_perspective_of_judge=political_perspective_of_judge, family_connections_in_legal_community=family_connections_in_legal_community)
+                         cannon1=cannon1, cannon2=cannon2, cannon3=cannon3, cannon4=cannon4, cannon5=cannon5, political_perspective_of_judge=political_perspective_of_judge, family_connections_in_legal_community=family_connections_in_legal_community, category=category)
         r.save()
 
         updateRatting(pk)
@@ -168,7 +171,7 @@ def rateJudge(request, pk):
                 canrate = False
 
         context = {'judgeInfo': ratedTo,
-                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting}
+                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list}
         return render(request, 'judge/ratejudge.html', context)
     else:
         try:
@@ -183,8 +186,8 @@ def rateJudge(request, pk):
             if r.user == request.user:
                 canrate = False
         context = {'judgeInfo': ratedTo,
-                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting}
-        return render(request, 'judge/ratejudge.html', context)
+                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list}
+        return render(request, 'judge/ratejudge.html', context, )
 
 
 def bestIntrest(request, pk):
@@ -250,6 +253,7 @@ def editRatting(request, pk):
 
 
 def getJudge2(request, pk):
+    print("Hello")
     profile = ""
     user = request.user
     canrate = True
@@ -279,9 +283,10 @@ def getJudge2(request, pk):
                 canbestintrest = False
     except User.DoesNotExist:
         ratting = ''
+    category_list = categories.objects.all()
+    print(category_list)
     context = {'judgeInfo': judgeInfo,
-               'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
-    template_name = "judge/ratejudge.html"
+               'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest, 'categories': category_list}
     return render(request, 'judge/ratejudge.html', context)
 
 
@@ -290,3 +295,35 @@ def updateRatting(pk):
     judgeInstance.totalRating = (
         judgeInstance.obtainScore/(judgeInstance.numberOfRatings*5))*5
     judgeInstance.save()
+
+
+@csrf_exempt
+def likereview(request):
+    rating = judgeRateing.objects.get(id=request.POST['id'])
+
+    r = rating.dislikeBy.all()
+    if request.user in r:
+        rating.dislikeBy.remove(request.user)
+        rating.total_dislikes -= 1.0
+
+    rating.likeBy.add(request.user)
+    rating.total_likes += 1.0
+    rating.save()
+
+    return JsonResponse({'totalDislikes': rating.total_dislikes, 'totalLikes': rating.total_likes})
+
+
+@csrf_exempt
+def dislikeReview(request):
+    rating = judgeRateing.objects.get(id=request.POST['id'])
+
+    r = rating.likeBy.all()
+    if request.user in r:
+        rating.likeBy.remove(request.user)
+        rating.total_likes -= 1.0
+
+    rating.dislikeBy.add(request.user)
+    rating.total_dislikes += 1.0
+    rating.save()
+
+    return JsonResponse({'totalDislikes': rating.total_dislikes, 'totalLikes': rating.total_likes})

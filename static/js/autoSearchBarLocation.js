@@ -17,15 +17,16 @@ searchOption2.addEventListener("click", function () {
 const search2 = document.getElementById("searchLocation");
 const matchList2 = document.getElementById("match-list2");
 
-const searchLocation = async (searchText) => {
-  const res2 = await fetch("/autocomplete3/" + searchText + "");
+const searchLocation = async (searchText2) => {
+  const res2 = await fetch("/autocomplete3/" + searchText2 + "");
   var response2 = await res2.json();
   let matches2 = response2.locationlist;
+  console.log("Here");
   if (matches2 != []) {
     search2.style.borderTopLeftRadius = "25px";
     search2.style.borderTopRightRadius = "25px";
   }
-  if (searchText.length <= 1) {
+  if (searchText2.length <= 1) {
     matches2 = [];
     matchList2.innerHTML = "";
     search2.style.borderTopLeftRadius = "0px";

@@ -56,7 +56,13 @@
                 <span class="fa fa-star"></span>
                 {% endif %}
                 
-              </div>             
+              </div>  
+              <h3>Judge's Top Tags</h3>
+              <div class="judgeTagsList">
+                {% for j in judgeInfo.tags.all %}
+                  <span class="judgeTags">{{j}}</span>
+                {% endfor %}
+              </div>
             </div>
           </div>
           
@@ -123,105 +129,79 @@
                 </div>
 
                 <div class="tab-pane fade profile-edit ratinglist pt-3" id="reviews">
-                    <h5 class="card-title">Reviews</h5>
+                    <div class="ratingFilterDiv">
+                      <h5 class="card-title">Reviews</h5>
+                      <div class="dropdown ratingFilterDropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Apply Filter
+                        </button>
+                        <ul class="dropdown-menu reviewFilterul" aria-labelledby="dropdownMenuButton1">
+                          {% for c in categories %}
+                          <li class="reviewFilter" id="reviewSelectedFilter" data-Rname={{c.name}}>{{c.name}}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
                     {% for r in ratting %}
-                    <div class="accordion" id="accordionExample">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{r.user.username}}" aria-expanded="false" aria-controls="{{r.user.username}}">
-                            <h4>{{r.user.first_name}}</h4>
-                          </button>
-                        </h2>
-                        <div id="{{r.user.username}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                          <div class="accordion-body">
-                            <div class="row">
- 
-                              <div class="col-lg-3 col-md-4 label ">Rating</div>
-                              <div class="col-lg-9 col-md-8">
-                              <div class="align-items-center">
-                                {% if r.rating >= 1 %}
-                                <span class="fa fa-star checked"></span>
-                                {% else %}
-                                <span class="fa fa-star"></span>
-                                {% endif %}
-                
-                                {% if r.rating >= 2 %}
-                                <span class="fa fa-star checked"></span>
-                                {% else %}
-                                <span class="fa fa-star"></span>
-                                {% endif %}
-                
-                                {% if r.rating >= 3 %}
-                                <span class="fa fa-star checked"></span>
-                                {% else %}
-                                <span class="fa fa-star"></span>
-                                {% endif %}
-                
-                                {% if r.rating >= 4 %}
-                                <span class="fa fa-star checked"></span>
-                                {% else %}
-                                <span class="fa fa-star"></span>
-                                {% endif %}
-                
-                                {% if r.rating >= 5 %}
-                                <span class="fa fa-star checked"></span>
-                                {% else %}
-                                <span class="fa fa-star"></span>
-                                {% endif %}
-                                
-                              </div> 
-                            </div>
+                      <div class="ratingDiv" id="ratingDiv">
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <h6><b>Rated By:</b></h6>
+                            <h5>{{r.user.first_name}}</h5>
+                            <h6 class="ratingLeftHedding"><b>Rating:</b></h6>
+                            <h5 class="ratingScoreCard">{{r.rating}}</h5>
+                            <h6 class="ratingLeftHedding"><b>Total Likes:</b></h6>
+                            <h5 class="ratingScoreCard" id="reviewLikes">{{r.total_likes}}</h5>
+                            <h6 class="ratingLeftHedding"><b>Total Dislikes:</b></h6>
+                            <h5 class="ratingScoreCard" id="reviewDislikes">{{r.total_dislikes}}</h5>
+                            <h6 class="ratingLeftHedding"><b>Category:</b></h6>
+                            <h5 id="reviewCategory" data-RCname={{r.category}}>{{r.category}}</h5>
 
-                            <div><br></div>
-
+                            <h6 class="ratingLeftHeddingLikeDislike"><b>What do you think ?</b></h6>
+                            {% if request.user not in r.likeBy.all %}
+                            <i class="fa fa-thumbs-up fa-3x ratingLeftHeddingLikeDislikeButtons" id="reviewLikebtn" data-Rid={{r.id}}></i>
+                            {% endif %}
+                            {% if request.user not in r.dislikeBy.all %}
+                            <i class="fa fa-thumbs-down fa-3x" id="reviewDislikebtn" data-Rid={{r.id}}></i>
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-9">
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionFirstTags"><b>Cannon1:</b></p>
+                              <p>{{r.cannon1}}</p>
                             </div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Discription</div>
-                              <div class="col-lg-9 col-md-8">{{r.description}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Cannon2:</b></p>
+                              <p>{{r.cannon2}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Cannon1</div>
-                              <div class="col-lg-9 col-md-8">{{r.cannon1}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Cannon3:</b></p>
+                              <p>{{r.cannon3}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Cannon2</div>
-                              <div class="col-lg-9 col-md-8">{{r.cannon2}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Cannon4:</b></p>
+                              <p>{{r.cannon4}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Cannon3</div>
-                              <div class="col-lg-9 col-md-8">{{r.cannon3}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Cannon5:</b></p>
+                              <p>{{r.cannon5}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Cannon4</div>
-                              <div class="col-lg-9 col-md-8">{{r.cannon4}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Political Perspective:</b></p>
+                              <p>{{r.political_perspective_of_judge}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Cannon5</div>
-                              <div class="col-lg-9 col-md-8">{{r.cannon5}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Family Connections in Legal Community:</b></p>
+                              <p>{{r.family_connections_in_legal_community}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Political Perspective Of Judge</div>
-                              <div class="col-lg-9 col-md-8">{{r.political_perspective_of_judge}}</div>
+                            <div class="ratingOptionList">
+                              <p class="ratingOptionTags"><b>Discription:</b></p>
+                              <p>{{r.description}}</p>
                             </div>
-                            <div><br></div>
-                            <div class="row">
-                              <div class="col-lg-3 col-md-4 label ">Family Connections In Legal Community</div>
-                              <div class="col-lg-9 col-md-8">{{r.family_connections_in_legal_community}}</div>
-                            </div>
-                            <div><br></div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                      
                     {% endfor %}
-                    
                 </div>
 
                 <div class="tab-pane fade profile-edit pt-3" id="rate-judge">
@@ -301,6 +281,23 @@
                         </div>
                       </div>
 
+                      <div class="row mb-3">
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Category
+                          </button>
+                          <ul class="dropdown-menu reviewFilterul" aria-labelledby="dropdownMenuButton1">
+                            {% for c in categories %}
+                            <li class="reviewFilter" id="selectCategory" data-category={{c.name}}>{{c.name}}</li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                        <div class="col-md-8 col-lg-9">
+                          
+                        </div>
+                      </div>
+
+                      <input type="hidden" class="category" name="category" id="category" value="">
                       <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">
 
                     

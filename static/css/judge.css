@@ -419,3 +419,80 @@ footer span a {
   font-size: 25px;
   box-sizing: border-box;
 }
+
+/* Like and Dislike buttons */
+
+.ratingFilterDiv {
+  display: flex;
+}
+
+.ratingFilterDropdown {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.ratingDiv {
+  background-color: #f3f1f1;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.ratingLeftHedding {
+  margin-top: 50px;
+}
+
+.ratingLeftHeddingLikeDislike {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.ratingLeftHeddingLikeDislikeButtons {
+  margin-right: 40px;
+}
+
+.ratingScoreCard {
+  background-color: bisque;
+  padding: 10px;
+  width: 50px;
+  margin-top: 0px;
+}
+
+.ratingOptionList {
+  line-height: 1.5;
+}
+
+.ratingOptionTags {
+  padding-right: 10px;
+  margin-top: 20px;
+  margin-bottom: 1px;
+}
+
+.ratingOptionFirstTags {
+  padding-right: 10px;
+  margin-bottom: 1px;
+}
+
+.reviewFilterul {
+  text-align: center;
+}
+
+.reviewFilter {
+  overflow: auto;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.reviewFilter:hover {
+  background-color: gray;
+}
+
+.judgeTagsList {
+  display: flex;
+}
+
+.judgeTags {
+  background-color: #f3f1f1;
+  border-radius: 5px;
+  margin-right: 10px;
+  padding: 5px;
+}

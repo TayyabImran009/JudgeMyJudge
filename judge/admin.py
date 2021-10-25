@@ -5,3 +5,7 @@ from .models import*
 admin.site.register(judge)
 admin.site.register(judgeRateing)
 admin.site.register(bestInterest)
+
+admin.site.register(categories)
+
+admin.site.register(tags)
