@@ -6,14 +6,14 @@ const headSearchJudge = async (headsearch1) => {
   var response = await res.json();
   let matches = response.jugeslist;
   if (matches != []) {
-    headSearchbar1.style.borderTopLeftRadius = "25px";
-    headSearchbar1.style.borderTopRightRadius = "25px";
+    headSearchbar1.style.borderBottomLeftRadius = "0px";
+    headSearchbar1.style.borderBottomRightRadius = "0px";
   }
   if (headsearch1.length <= 1) {
     matches = [];
     headDiv1.innerHTML = "";
-    headSearchbar1.style.borderTopLeftRadius = "0px";
-    headSearchbar1.style.borderTopRightRadius = "0px";
+    headSearchbar1.style.borderBottomLeftRadius = "25px";
+    headSearchbar1.style.borderBottomRightRadius = "25px";
   }
   headoutputHtml1(matches);
 };
@@ -48,14 +48,14 @@ const headSearchLocation = async (headsearch2) => {
   var response2 = await res2.json();
   let matches2 = response2.locationlist;
   if (matches2 != []) {
-    headSearchbar2.style.borderTopLeftRadius = "25px";
-    headSearchbar2.style.borderTopRightRadius = "25px";
+    headSearchbar2.style.borderBottomLeftRadius = "0px";
+    headSearchbar2.style.borderBottomRightRadius = "0px";
   }
   if (headsearch2.length <= 1) {
     matches2 = [];
     headDiv2.innerHTML = "";
-    headSearchbar2.style.borderTopLeftRadius = "0px";
-    headSearchbar2.style.borderTopRightRadius = "0px";
+    headSearchbar2.style.borderBottomLeftRadius = "25px";
+    headSearchbar2.style.borderBottomRightRadius = "25px";
   }
   headOutputHtml2(matches2);
 };

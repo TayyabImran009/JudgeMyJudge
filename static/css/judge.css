@@ -23,6 +23,11 @@
 
 .match-list :hover {
   background-color: #009688;
+  cursor: pointer;
+}
+
+#sOptions1 {
+  cursor: pointer;
 }
 
 .searchJudge {
@@ -30,6 +35,11 @@
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+  border-radius: 25px;
+}
+
+.searchJudge:active {
+  outline-style: none !important;
 }
 
 .displayNames {
@@ -501,10 +511,20 @@ footer span a {
   bottom: 20px;
   right: 20px;
   display: none;
+  cursor: pointer;
 }
 
 .toggleRatingDivDown {
   position: absolute;
   bottom: 20px;
   right: 20px;
+  cursor: pointer;
+}
+
+#reviewDislikebtn {
+  cursor: pointer;
+}
+
+#reviewLikebtn {
+  cursor: pointer;
 }

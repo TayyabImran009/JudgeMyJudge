@@ -17,6 +17,7 @@
 
 .headMatchList1 :hover {
   background-color: #009688;
+  cursor: pointer;
 }
 
 .headSearchJudge {
@@ -25,6 +26,11 @@
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+  border-radius: 25px;
+}
+
+.headSearchJudge:focus {
+  outline: none !important;
 }
 
 .displayHeadNames {
@@ -53,6 +59,15 @@
 
 .headMatchList2 :hover {
   background-color: #009688;
+  cursor: pointer;
+}
+
+#changeHeadLocation {
+  cursor: pointer;
+}
+
+.fa-star {
+  cursor: pointer;
 }
 
 .headSearchLocation {
@@ -61,6 +76,7 @@
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+  border-radius: 25px;
 }
 
 .displayHeadLocation {

@@ -23,14 +23,14 @@ const searchLocation = async (searchText2) => {
   let matches2 = response2.locationlist;
   console.log("Here");
   if (matches2 != []) {
-    search2.style.borderTopLeftRadius = "25px";
-    search2.style.borderTopRightRadius = "25px";
+    search2.style.borderBottomLeftRadius = "0px";
+    search2.style.borderBottomRightRadius = "0px";
   }
   if (searchText2.length <= 1) {
     matches2 = [];
     matchList2.innerHTML = "";
-    search2.style.borderTopLeftRadius = "0px";
-    search2.style.borderTopRightRadius = "0px";
+    search2.style.borderBottomLeftRadius = "25px";
+    search2.style.borderBottomRightRadius = "25px";
   }
   outputHtml2(matches2);
 };

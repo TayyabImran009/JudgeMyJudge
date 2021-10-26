@@ -3,6 +3,7 @@
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+  border-radius: 25px;
 }
 
 .match-list2 {
@@ -20,6 +21,11 @@
 
 .match-list2 :hover {
   background-color: #009688;
+  cursor: pointer;
+}
+
+#sOptions2 {
+  cursor: pointer;
 }
 
 .displayLocation {

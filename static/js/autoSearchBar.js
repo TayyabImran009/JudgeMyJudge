@@ -6,14 +6,14 @@ const searchJudges = async (searchText) => {
   var response = await res.json();
   let matches = response.jugeslist;
   if (matches != []) {
-    search.style.borderTopLeftRadius = "25px";
-    search.style.borderTopRightRadius = "25px";
+    search.style.borderBottomLeftRadius = "0px";
+    search.style.borderBottomRightRadius = "0px";
   }
   if (searchText.length <= 1) {
     matches = [];
     matchList.innerHTML = "";
-    search.style.borderTopLeftRadius = "0px";
-    search.style.borderTopRightRadius = "0px";
+    search.style.borderBottomLeftRadius = "25px";
+    search.style.borderBottomRightRadius = "25px";
   }
   outputHtml(matches);
 };

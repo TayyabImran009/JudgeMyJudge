@@ -232,12 +232,12 @@ def editRatting(request, pk):
     canbestintrest = True
     judgeInfo = judge.objects.get(id=pk)
     inst = judgeRateing.objects.get(user=request.user, ratedTo=judgeInfo)
+    profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
         form = judgeRateingForm(request.POST, instance=inst)
         form.save()
         if form.is_valid():
             form.save()
-            profile = UserProfile.objects.get(user=request.user)
             ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
             profile = UserProfile.objects.get(user=request.user)
             ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
@@ -260,7 +260,19 @@ def editRatting(request, pk):
             context = {'judgeInfo': judgeInfo,
                        'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
             return render(request, 'judge/ratejudge.html', context)
-    return redirect('rateJudge/pk')
+    else:
+        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
+        total_num = (len(ratting))*5
+        obtain_num = 0
+        for r in ratting:
+            obtain_num += r.rating
+            if r.user == request.user:
+                canrate = False
+        if total_num != 0:
+            total_rating = (obtain_num/total_num)*5
+        context = {'judgeInfo': judgeInfo,
+                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
+        return render(request, 'judge/ratejudge.html', context)
 
 
 def getJudge2(request, pk):
