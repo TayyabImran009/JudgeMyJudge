@@ -25,11 +25,16 @@ urlpatterns = [
 
     path('autocomplete2/<str:pk>', views.autocomplete2, name="autocomplete2"),
 
+    path('judgeWithLocation/<str:pk>',
+         views.judgeWithLocation, name="judgeWithLocation"),
+
     path('getJudge2/<str:pk>', views.getJudge2, name="getJudge2"),
 
     path('autocomplete3/<str:pk>', views.autocomplete3, name="autocomplete3"),
 
     path('likereview/', views.likereview, name="likereview"),
     path('dislikeReview/', views.dislikeReview, name="dislikeReview"),
+
+    path('setLocation/<str:name>', views.setLocation, name="setLocation"),
 
 ]

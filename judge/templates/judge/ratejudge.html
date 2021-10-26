@@ -72,7 +72,7 @@
 
         <div class="col-xl-8">
 
-          <div class="card">
+          <div class="card" style="overflow: visible !important;">
             <div class="card-body pt-3">
                 <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
@@ -145,7 +145,7 @@
                     {% for r in ratting %}
                       <div class="ratingDiv" id="ratingDiv">
                         <div class="row">
-                          <div class="col-lg-3">
+                          <div class="col-lg-3" id="ratingArea">
                             <h6><b>Rated By:</b></h6>
                             <h5>{{r.user.first_name}}</h5>
                             <h6 class="ratingLeftHedding"><b>Rating:</b></h6>
@@ -159,10 +159,14 @@
 
                             <h6 class="ratingLeftHeddingLikeDislike"><b>What do you think ?</b></h6>
                             {% if request.user not in r.likeBy.all %}
-                            <i class="fa fa-thumbs-up fa-3x ratingLeftHeddingLikeDislikeButtons" id="reviewLikebtn" data-Rid={{r.id}}></i>
+                              <i class="fa fa-thumbs-up fa-3x ratingLeftHeddingLikeDislikeButtons" id="reviewLikebtn" data-Rid={{r.id}}></i>
+                            {% else %}
+                              <i class="fa fa-thumbs-up fa-3x ratingLeftHeddingLikeDislikeButtons" id="reviewLikebtn" data-Rid={{r.id}} style="display: none;"></i>
                             {% endif %}
                             {% if request.user not in r.dislikeBy.all %}
-                            <i class="fa fa-thumbs-down fa-3x" id="reviewDislikebtn" data-Rid={{r.id}}></i>
+                              <i class="fa fa-thumbs-down fa-3x" id="reviewDislikebtn" data-Rid={{r.id}}></i>
+                            {% else %}
+                              <i class="fa fa-thumbs-down fa-3x" id="reviewDislikebtn" data-Rid={{r.id}} style="display: none;"></i>
                             {% endif %}
                           </div>
                           <div class="col-lg-9">
@@ -199,6 +203,13 @@
                               <p>{{r.description}}</p>
                             </div>
                           </div>
+                        </div>
+                        <div class="toggleRatingDivUp" id="toggleRatingDivUp">
+                          <i class="fa fa-arrow-up"></i>
+                        </div>
+
+                        <div class="toggleRatingDivDown" id="toggleRatingDivDown">
+                          <i class="fa fa-arrow-down"></i>
                         </div>
                       </div>
                     {% endfor %}

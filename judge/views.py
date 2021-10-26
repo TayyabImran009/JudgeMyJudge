@@ -58,6 +58,18 @@ def autocomplete2(request, pk):
     return JsonResponse({'jugeslist': jugeslist})
 
 
+def judgeWithLocation(request, pk):
+    if 'JudgeLocation' not in request.session:
+        j = judge.objects.filter(
+            name__istartswith=pk).values()
+    else:
+        j = judge.objects.filter(
+            name__istartswith=pk, location=request.session["JudgeLocation"]).values()
+    jugeslist = list(j)
+
+    return JsonResponse({'jugeslist': jugeslist})
+
+
 def autocomplete3(request, pk):
     judgesList = judge.objects.filter(
         location__istartswith=pk)
@@ -142,7 +154,6 @@ def rateJudge(request, pk):
         cannon5 = request.POST['cannon5']
         political_perspective_of_judge = request.POST['political_perspective_of_judge']
         family_connections_in_legal_community = request.POST['family_connections_in_legal_community']
-        print(request.POST['category'])
         category = categories.objects.get(name=request.POST['category'])
 
         ratedTo.numberOfRatings += 1
@@ -253,7 +264,6 @@ def editRatting(request, pk):
 
 
 def getJudge2(request, pk):
-    print("Hello")
     profile = ""
     user = request.user
     canrate = True
@@ -284,7 +294,7 @@ def getJudge2(request, pk):
     except User.DoesNotExist:
         ratting = ''
     category_list = categories.objects.all()
-    print(category_list)
+    request.session["JudgeLocation"] = judgeInfo.location
     context = {'judgeInfo': judgeInfo,
                'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest, 'categories': category_list}
     return render(request, 'judge/ratejudge.html', context)
@@ -327,3 +337,15 @@ def dislikeReview(request):
     rating.save()
 
     return JsonResponse({'totalDislikes': rating.total_dislikes, 'totalLikes': rating.total_likes})
+
+
+def setLocation(request, name):
+    setSession(request, name)
+    return JsonResponse({'state': 1})
+
+
+def setSession(request, name):
+    print("Yes Set")
+    print(request.session["JudgeLocation"])
+    request.session["JudgeLocation"] = name
+    print(request.session["JudgeLocation"])

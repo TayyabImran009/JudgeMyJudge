@@ -11,7 +11,24 @@ const reviewFilter = document.querySelectorAll("#reviewSelectedFilter");
 const category = document.getElementById("category");
 const selectCategory = document.querySelectorAll("#selectCategory");
 
-console.log(category);
+const toggleBtnUp = document.querySelectorAll("#toggleRatingDivUp");
+const toggleBtnDown = document.querySelectorAll("#toggleRatingDivDown");
+
+for (let i = 0; i < toggleBtnDown.length; i++) {
+  toggleBtnDown[i].addEventListener("click", function (event) {
+    ratingDiv[i].style.height = "100%";
+    toggleBtnUp[i].style.display = "block";
+    toggleBtnDown[i].style.display = "none";
+  });
+}
+
+for (let i = 0; i < toggleBtnUp.length; i++) {
+  toggleBtnUp[i].addEventListener("click", function (event) {
+    ratingDiv[i].style.height = "350px";
+    toggleBtnUp[i].style.display = "none";
+    toggleBtnDown[i].style.display = "block";
+  });
+}
 
 for (let i = 0; i < selectCategory.length; i++) {
   selectCategory[i].addEventListener("click", function (event) {
@@ -51,8 +68,18 @@ function likeReview(Rid, i) {
     method: "POST",
     data: mydata,
     success: function (data) {
-      // const p = posts[i].querySelector(".project__title");
-      // p.innerHTML = "Likes: " + tlike[0].total_likes;
+      likebtn[i]
+        .closest("#ratingArea")
+        .querySelector("#reviewLikes").innerHTML = "" + data.totalLikes + ".0";
+
+      likebtn[i]
+        .closest("#ratingArea")
+        .querySelector("#reviewDislikes").innerHTML =
+        "" + data.totalDislikes + ".0";
+
+      likebtn[i]
+        .closest("#ratingArea")
+        .querySelector("#reviewDislikebtn").style.display = "block";
 
       likebtn[i].style.display = "none";
     },
@@ -73,9 +100,19 @@ function dislikeReview(Rid, i) {
     method: "POST",
     data: mydata,
     success: function (data) {
-      // const p = posts[i].querySelector(".project__title");
-      // p.innerHTML = "Likes: " + tlike[0].total_likes;
-      console.log(data.totalDislikes);
+      dislikebtn[i]
+        .closest("#ratingArea")
+        .querySelector("#reviewLikes").innerHTML = "" + data.totalLikes + ".0";
+
+      dislikebtn[i]
+        .closest("#ratingArea")
+        .querySelector("#reviewDislikes").innerHTML =
+        "" + data.totalDislikes + ".0";
+
+      dislikebtn[i]
+        .closest("#ratingArea")
+        .querySelector("#reviewLikebtn").style.display = "block";
+
       dislikebtn[i].style.display = "none";
     },
   });

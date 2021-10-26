@@ -435,10 +435,13 @@ footer span a {
   background-color: #f3f1f1;
   padding: 20px;
   margin-bottom: 40px;
+  position: relative;
+  height: 350px;
+  overflow: hidden;
 }
 
 .ratingLeftHedding {
-  margin-top: 50px;
+  margin-top: 35px;
 }
 
 .ratingLeftHeddingLikeDislike {
@@ -486,13 +489,22 @@ footer span a {
   background-color: gray;
 }
 
-.judgeTagsList {
-  display: flex;
-}
-
 .judgeTags {
   background-color: #f3f1f1;
   border-radius: 5px;
   margin-right: 10px;
   padding: 5px;
+}
+
+.toggleRatingDivUp {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}
+
+.toggleRatingDivDown {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }

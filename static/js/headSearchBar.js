@@ -2,7 +2,7 @@ const headSearchbar1 = document.getElementById("headSearchJudge");
 const headDiv1 = document.getElementById("headMatchList1");
 
 const headSearchJudge = async (headsearch1) => {
-  const res = await fetch("/autocomplete2/" + headsearch1 + "");
+  const res = await fetch("/judgeWithLocation/" + headsearch1 + "");
   var response = await res.json();
   let matches = response.jugeslist;
   if (matches != []) {
@@ -65,7 +65,7 @@ const headOutputHtml2 = (matches2) => {
     const html = matches2
       .map(
         (match2) =>
-          "<div class='displayHeadLocation' id='selectedHeadLocation'  onclick=goToLocation2('" +
+          "<div class='displayHeadLocation' id='selectedHeadLocation'  onclick=goToSetLocation('" +
           match2 +
           "')><div class='row'><div class='align-items-left info'><b><i class='bi bi-pin-map-fill'></i></b><span ><b class='lName'>" +
           match2 +
@@ -79,3 +79,27 @@ const headOutputHtml2 = (matches2) => {
 headSearchbar2.addEventListener("input", () =>
   headSearchLocation(headSearchbar2.value)
 );
+
+const headLocationDiv = document.getElementById("search-bar2");
+const changeHeadLocation = document.getElementById("changeHeadLocation");
+const headLocationOptionDiv = document.getElementById("headLocationOption");
+const headSearchLocationValue = document.getElementById("headSearchLocation");
+const setLocation = document.getElementById("setLocation");
+
+changeHeadLocation.addEventListener("click", function () {
+  headLocationDiv.style.display = "block";
+  headLocationOptionDiv.style.display = "none";
+});
+
+function goToSetLocation(name) {
+  console.log(name);
+  const res = fetch("/setLocation/" + name + "");
+  headDiv2.innerHTML = "";
+  headLocationDiv.style.display = "none";
+  headLocationOptionDiv.style.display = "block";
+  headSearchLocationValue.value = name;
+  setLocation.innerHTML =
+    "<p id='setLocation'>" +
+    name +
+    " <i class ='fa fa-pencil' id='changeHeadLocation'></i></p>";
+}

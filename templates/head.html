@@ -15,8 +15,14 @@
       </div>
     </div>
 
-    <div class="search-bar2">
-      <input type="text" id="headSearchLocation" class="form-control form-control-lg headSearchLocation" placeholder="&#xF002; Enter The Name of Location...">
+    {% if request.session.JudgeLocation %}
+    <div class="headLocationOption" id="headLocationOption">
+      <p id="setLocation">{{request.session.JudgeLocation}} <i class ="fa fa-pencil" id="changeHeadLocation"></i></p>
+    </div>
+    {% endif %}
+
+    <div class="search-bar2" id="search-bar2" style="display: none;">
+      <input type="text" id="headSearchLocation" class="form-control form-control-lg headSearchLocation" value="{{request.session.JudgeLocation}}" placeholder="&#xF002; Enter The Name of Location...">
       <div class="headMatchList2" id="headMatchList2">
       </div>
     </div><!-- End Search Bar -->
