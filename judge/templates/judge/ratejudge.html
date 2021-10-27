@@ -147,7 +147,7 @@
                         <div class="row">
                           <div class="col-lg-3" id="ratingArea">
                             <h6><b>Rated By:</b></h6>
-                            <h5>{{r.user.first_name}}</h5>
+                            <h5><a href="{% url 'ratedByProfile' r.user.id %}"> {{r.user.first_name}}</a></h5>
                             <h6 class="ratingLeftHedding"><b>Rating:</b></h6>
                             <h5 class="ratingScoreCard">{{r.rating}}</h5>
                             <h6 class="ratingLeftHedding"><b>Total Likes:</b></h6>

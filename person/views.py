@@ -46,3 +46,12 @@ def changePassword(request):
             return redirect('logout')
 
     return redirect('profile')
+
+
+def ratedByProfile(request, pk):
+    user = request.user
+    profile = UserProfile.objects.get(user=user)
+    ratedUser = User.objects.get(id=pk)
+    ratedByProfile = UserProfile.objects.get(user=ratedUser)
+    context = {'profile': profile, 'ratedByProfile': ratedByProfile}
+    return render(request, 'person/ratedByProfile.html', context)

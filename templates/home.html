@@ -30,34 +30,65 @@
     <div class="welcomeData">
         <h1>Judge <spam class="coloor2">My</spam> Judge</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur velit minus fuga maxime, laborum exercitationem vel officia porro ullam voluptas.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, dolorem?</p>
+        {% if request.session.JudgeLocation %}
+            <p class="homep"><b>State: <spam class="coloor2" id="nameOfState">{{request.session.JudgeLocation}}</spam></b></p>
+        {% else %}
+            <p class="homep">Select the state...</p>
+        {% endif %}
 
-        <div class="container mt-5" id="sDiv1">
-            <div class="row">
-                <div class ="col-md-4 m-auto">
-                    <div class="form-group">
-                        <input type="text" id="searchJudge" class="form-control form-control-lg searchJudge" placeholder="&#xF002; Enter The Name of Judge..." style="outline-style: none;">
+        {% if request.session.JudgeLocation %}
+            <div class="container mt-5" id="sDiv1">
+                <div class="row">
+                    <div class ="col-md-4 m-auto">
+                        <div class="form-group">
+                            <input type="text" id="searchJudge" class="form-control form-control-lg searchJudge" placeholder="&#xF002; Enter The Name of Judge..." style="outline-style: none;">
+                        </div>
+                        <div class="match-list" id="match-list">
+                        </div>
                     </div>
-                    <div class="match-list" id="match-list">
-                    </div>
+                    <p id="sOptions1"><b>Select State...</b></p>
                 </div>
-                <p id="sOptions1">Search By Location...</p>
             </div>
-        </div>
 
-        <div class="container mt-5" id="sDiv2" style="display: none;">
-            <div class="row">
-                <div class ="col-md-4 m-auto">
-                    <div class="form-group">
-                        <input type="text" id="searchLocation" class="form-control form-control-lg searchLocation" placeholder="&#xF002; Enter The Name of Location...">
+            <div class="container mt-5" id="sDiv2" style="display: none;">
+                <div class="row">
+                    <div class ="col-md-4 m-auto">
+                        <div class="form-group">
+                            <input type="text" id="searchLocation" class="form-control form-control-lg searchLocation" placeholder="&#xF002; Enter The Name of State...">
+                        </div>
+                        <div class="match-list2" id="match-list2">
+                        </div>
                     </div>
-                    <div class="match-list2" id="match-list2">
-                    </div>
+                    <p id="sOptions2"><b>Search Name Of Judge...</b></p>
                 </div>
-                <p id="sOptions2">Search By Name...</p>
             </div>
-        </div>
+        {% else %}
+            <div class="container mt-5" id="sDiv1" style="display: none;">
+                <div class="row">
+                    <div class ="col-md-4 m-auto">
+                        <div class="form-group">
+                            <input type="text" id="searchJudge" class="form-control form-control-lg searchJudge" placeholder="&#xF002; Enter The Name of Judge..." style="outline-style: none;">
+                        </div>
+                        <div class="match-list" id="match-list">
+                        </div>
+                    </div>
+                    <p id="sOptions1"><b>Select State...</b></p>
+                </div>
+            </div>
 
+            <div class="container mt-5" id="sDiv2">
+                <div class="row">
+                    <div class ="col-md-4 m-auto">
+                        <div class="form-group">
+                            <input type="text" id="searchLocation" class="form-control form-control-lg searchLocation" placeholder="&#xF002; Enter The Name of State...">
+                        </div>
+                        <div class="match-list2" id="match-list2">
+                        </div>
+                    </div>
+                    <p id="sOptions2"><b>Search Name Of Judge...</b></p>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
 

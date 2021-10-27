@@ -4,6 +4,8 @@ const searchOption2 = document.getElementById("sOptions2");
 const searchdiv1 = document.getElementById("sDiv1");
 const searchdiv2 = document.getElementById("sDiv2");
 
+const nameOfState = document.getElementById("nameOfState");
+
 searchOption1.addEventListener("click", function () {
   searchdiv1.style.display = "none";
   searchdiv2.style.display = "block";
@@ -21,7 +23,6 @@ const searchLocation = async (searchText2) => {
   const res2 = await fetch("/autocomplete3/" + searchText2 + "");
   var response2 = await res2.json();
   let matches2 = response2.locationlist;
-  console.log("Here");
   if (matches2 != []) {
     search2.style.borderBottomLeftRadius = "0px";
     search2.style.borderBottomRightRadius = "0px";
@@ -54,5 +55,9 @@ const outputHtml2 = (matches2) => {
 search2.addEventListener("input", () => searchLocation(search2.value));
 
 function goToLocation2(myvalue) {
-  window.location.replace("/getJudgeByLocation/" + myvalue);
+  const res = fetch("/setLocation/" + myvalue + "");
+  searchdiv2.style.display = "none";
+  searchdiv1.style.display = "block";
+  matchList2.innerHTML = "";
+  nameOfState.innerHTML = myvalue;
 }

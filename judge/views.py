@@ -51,8 +51,12 @@ def autocompleteLocation(request):
 
 
 def autocomplete2(request, pk):
-    j = judge.objects.filter(
-        name__istartswith=pk).values()
+    if 'JudgeLocation' not in request.session:
+        j = judge.objects.filter(
+            name__istartswith=pk).values()
+    else:
+        j = judge.objects.filter(
+            name__istartswith=pk, location=request.session["JudgeLocation"]).values()
     jugeslist = list(j)
 
     return JsonResponse({'jugeslist': jugeslist})

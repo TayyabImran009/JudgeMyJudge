@@ -92,7 +92,6 @@ changeHeadLocation.addEventListener("click", function () {
 });
 
 function goToSetLocation(name) {
-  console.log(name);
   const res = fetch("/setLocation/" + name + "");
   headDiv2.innerHTML = "";
   headLocationDiv.style.display = "none";

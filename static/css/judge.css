@@ -28,6 +28,11 @@
 
 #sOptions1 {
   cursor: pointer;
+  font-size: 23px;
+}
+
+#sOptions1:hover {
+  font-size: 25px;
 }
 
 .searchJudge {

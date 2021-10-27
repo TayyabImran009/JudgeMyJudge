@@ -26,8 +26,12 @@
 
 #sOptions2 {
   cursor: pointer;
+  font-size: 23px;
 }
 
+#sOptions2:hover {
+  font-size: 25px;
+}
 .displayLocation {
   height: 50px;
   color: black;
@@ -42,4 +46,12 @@
 
 .sOpHead {
   padding-top: 10px;
+}
+
+.homep {
+  font-size: 20px;
+}
+
+.homep:hover {
+  font-size: 25px;
 }
