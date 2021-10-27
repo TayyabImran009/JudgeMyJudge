@@ -42,11 +42,11 @@ def autocomplete(request):
 def autocompleteLocation(request):
     if 'term' in request.GET:
         judgeList = judge.objects.filter(
-            location__istartswith=request.GET.get('term'))
+            state__istartswith=request.GET.get('term'))
         searchJudge = list()
         for j in judgeList:
-            if j.location not in searchJudge:
-                searchJudge.append(j.location)
+            if j.state not in searchJudge:
+                searchJudge.append(j.state)
         return JsonResponse(searchJudge, safe=False)
 
 
@@ -56,7 +56,7 @@ def autocomplete2(request, pk):
             name__istartswith=pk).values()
     else:
         j = judge.objects.filter(
-            name__istartswith=pk, location=request.session["JudgeLocation"]).values()
+            name__istartswith=pk, state=request.session["JudgeLocation"]).values()
     jugeslist = list(j)
 
     return JsonResponse({'jugeslist': jugeslist})
@@ -68,7 +68,7 @@ def judgeWithLocation(request, pk):
             name__istartswith=pk).values()
     else:
         j = judge.objects.filter(
-            name__istartswith=pk, location=request.session["JudgeLocation"]).values()
+            name__istartswith=pk, state=request.session["JudgeLocation"]).values()
     jugeslist = list(j)
 
     return JsonResponse({'jugeslist': jugeslist})
@@ -76,11 +76,13 @@ def judgeWithLocation(request, pk):
 
 def autocomplete3(request, pk):
     judgesList = judge.objects.filter(
-        location__istartswith=pk)
+        state__istartswith=pk)
     locationlist = list()
     for l in judgesList:
-        if l.location not in locationlist:
-            locationlist.append(l.location)
+        if l.state not in locationlist:
+            locationlist.append(l.state)
+    print("Hello")
+    print(locationlist)
     return JsonResponse({'locationlist': locationlist})
 
 
@@ -310,7 +312,7 @@ def getJudge2(request, pk):
     except User.DoesNotExist:
         ratting = ''
     category_list = categories.objects.all()
-    request.session["JudgeLocation"] = judgeInfo.location
+    request.session["JudgeLocation"] = judgeInfo.state
     context = {'judgeInfo': judgeInfo,
                'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest, 'categories': category_list}
     return render(request, 'judge/ratejudge.html', context)
@@ -356,12 +358,5 @@ def dislikeReview(request):
 
 
 def setLocation(request, name):
-    setSession(request, name)
-    return JsonResponse({'state': 1})
-
-
-def setSession(request, name):
-    print("Yes Set")
-    print(request.session["JudgeLocation"])
     request.session["JudgeLocation"] = name
-    print(request.session["JudgeLocation"])
+    return JsonResponse({'state': 1})

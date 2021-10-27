@@ -60,4 +60,5 @@ function goToLocation2(myvalue) {
   searchdiv1.style.display = "block";
   matchList2.innerHTML = "";
   nameOfState.innerHTML = myvalue;
+  console.log(myvalue);
 }
