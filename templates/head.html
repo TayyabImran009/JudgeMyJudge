@@ -10,7 +10,7 @@
     </div><!-- End Logo -->
 
     <div class="search-bar">
-      <input type="text" id="headSearchJudge" class="form-control form-control-lg headSearchJudge" placeholder="&#xF002; Enter The Name of Judge...">
+      <input type="text" id="headSearchJudge" class="form-control form-control-lg headSearchJudge" placeholder="&#xF002; Judge name">
       <div class="headMatchList1" id="headMatchList1">
       </div>
     </div>
@@ -22,7 +22,7 @@
     {% endif %}
 
     <div class="search-bar2" id="search-bar2" style="display: none;">
-      <input type="text" id="headSearchLocation" class="form-control form-control-lg headSearchLocation" value="{{request.session.JudgeLocation}}" placeholder="&#xF002; Enter The Name of Location...">
+      <input type="text" id="headSearchLocation" class="form-control form-control-lg headSearchLocation" value="{{request.session.JudgeLocation}}" placeholder="&#xF002; Judge state">
       <div class="headMatchList2" id="headMatchList2">
       </div>
     </div><!-- End Search Bar -->

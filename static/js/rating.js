@@ -8,11 +8,117 @@ const ratingDiv = document.querySelectorAll("#ratingDiv");
 const reviewCategory = document.querySelectorAll("#reviewCategory");
 const reviewFilter = document.querySelectorAll("#reviewSelectedFilter");
 
+const filterDropdownBtn = document.getElementById("filterDropdownBtn");
+
 const category = document.getElementById("category");
 const selectCategory = document.querySelectorAll("#selectCategory");
 
 const toggleBtnUp = document.querySelectorAll("#toggleRatingDivUp");
 const toggleBtnDown = document.querySelectorAll("#toggleRatingDivDown");
+
+const judgeRatingTags = document.querySelectorAll("#judgeRatingTags");
+
+const tag1 = document.getElementById("tag1");
+const tag2 = document.getElementById("tag2");
+const tag3 = document.getElementById("tag3");
+
+const updateTag1 = document.getElementById("updateTag1");
+const updateTag2 = document.getElementById("updateTag2");
+const updateTag3 = document.getElementById("updateTag3");
+
+const updateTag = document.querySelectorAll("#updateTag");
+
+let tagCount = 0;
+
+for (let i = 0; i < updateTag.length; i++) {
+  updateTag[i].addEventListener("click", function (event) {});
+
+  if (tagCount < 3) {
+    if (updateTag[i].classList.contains("updateJudgeRatingTags")) {
+      updateTag[i].classList.add("updateSelectedTag", "nothing");
+      updateTag[i].classList.remove("updateJudgeRatingTags", "nothing");
+      tagCount++;
+      updateTag(updateTag[i].getAttribute("data-tagName"));
+    } else {
+      updateTag[i].classList.remove("updateSelectedTag", "nothing");
+      updateTag[i].classList.add("updateJudgeRatingTags", "nothing");
+      tagCount--;
+      updateTag(judgeRatingTags[i].getAttribute("data-tagName"));
+    }
+  } else {
+    if (updateTag[i].classList.contains("updateSelectedTag")) {
+      updateTag[i].classList.remove("updateSelectedTag", "nothing");
+      updateTag[i].classList.add("updateJudgeRatingTags", "nothing");
+      tagCount--;
+      removeUpdateTag(judgeRatingTags[i].getAttribute("data-tagName"));
+    }
+  }
+}
+
+function updateTag(tag) {
+  if (updateTag1.value == "") {
+    updateTag1.value = tag;
+  } else if (updateTag2.value == "") {
+    updateTag2.value = tag;
+  } else {
+    updateTag3.value = tag;
+  }
+}
+
+function removeUpdateTag(tag) {
+  if (updateTag1.value == tag) {
+    updateTag1.value = "";
+  } else if (updateTag2.value == tag) {
+    updateTag2.value = "";
+  } else {
+    updateTag3.value = "";
+  }
+}
+
+for (let i = 0; i < judgeRatingTags.length; i++) {
+  judgeRatingTags[i].addEventListener("click", function (event) {
+    if (tagCount < 3) {
+      if (judgeRatingTags[i].classList.contains("judgeRatingTags")) {
+        judgeRatingTags[i].classList.add("selectedTag", "nothing");
+        judgeRatingTags[i].classList.remove("judgeRatingTags", "nothing");
+        tagCount++;
+        addTag(judgeRatingTags[i].getAttribute("data-tagName"));
+      } else {
+        judgeRatingTags[i].classList.remove("selectedTag", "nothing");
+        judgeRatingTags[i].classList.add("judgeRatingTags", "nothing");
+        tagCount--;
+        removeTag(judgeRatingTags[i].getAttribute("data-tagName"));
+      }
+    } else {
+      if (judgeRatingTags[i].classList.contains("selectedTag")) {
+        judgeRatingTags[i].classList.remove("selectedTag", "nothing");
+        judgeRatingTags[i].classList.add("judgeRatingTags", "nothing");
+        tagCount--;
+        removeTag(judgeRatingTags[i].getAttribute("data-tagName"));
+      }
+    }
+  });
+}
+
+function addTag(tag) {
+  if (tag1.value == "") {
+    tag1.value = tag;
+  } else if (tag2.value == "") {
+    tag2.value = tag;
+  } else {
+    tag3.value = tag;
+  }
+}
+
+function removeTag(tag) {
+  if (tag1.value == tag) {
+    tag1.value = "";
+  } else if (tag2.value == tag) {
+    tag2.value = "";
+  } else {
+    tag3.value = "";
+  }
+}
 
 for (let i = 0; i < toggleBtnDown.length; i++) {
   toggleBtnDown[i].addEventListener("click", function (event) {
@@ -40,6 +146,7 @@ for (let i = 0; i < selectCategory.length; i++) {
 for (let i = 0; i < reviewFilter.length; i++) {
   reviewFilter[i].addEventListener("click", function (event) {
     var Rname = event.target.getAttribute("data-Rname");
+    filterDropdownBtn.innerHTML = Rname;
     applyFilter(Rname);
   });
 }

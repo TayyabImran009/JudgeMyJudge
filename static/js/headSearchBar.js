@@ -23,13 +23,17 @@ const headoutputHtml1 = (matches) => {
     const html = matches
       .map(
         (match) =>
-          "<div class='displayHeadNames' id='selectedHeadJudge' onclick='goToJudge(" +
+          "<div class='displayNames' id='selectedJudge' onclick='goToJudge(" +
           match.id +
           ")'><div class='row'><div class='align-items-left info'><b><i class='bi bi-person'></i></b><span ><b>" +
           match.name +
-          "</b></span></div></div><small class='locationInfo'>Location: <b>" +
+          "</b></span></div></div><small class='locationInfo'>" +
+          match.coat_name +
+          "</small><small class='locationInfo'>, " +
           match.location +
-          "</b></small></div>"
+          "</small><small class='locationInfo'>, " +
+          match.state +
+          "</small></div>"
       )
       .join("");
     headDiv1.innerHTML = html;
@@ -67,7 +71,7 @@ const headOutputHtml2 = (matches2) => {
         (match2) =>
           "<div class='displayHeadLocation' id='selectedHeadLocation'  onclick=goToSetLocation('" +
           match2 +
-          "')><div class='row'><div class='align-items-left info'><b><i class='bi bi-pin-map-fill'></i></b><span ><b class='lName'>" +
+          "')><div class='row'><div class='align-items-left info'><b><i class='bi bi-pin-map-fill'></i></b><span ><b class='lName'> " +
           match2 +
           "</b></span></div></div></div>"
       )

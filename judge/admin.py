@@ -9,3 +9,5 @@ admin.site.register(bestInterest)
 admin.site.register(categories)
 
 admin.site.register(tags)
+
+admin.site.register(judgeTags)

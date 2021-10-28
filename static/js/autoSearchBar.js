@@ -12,6 +12,7 @@ const searchJudges = async (searchText) => {
   if (searchText.length <= 1) {
     matches = [];
     matchList.innerHTML = "";
+    searchOption1.style.display = "block";
     search.style.borderBottomLeftRadius = "25px";
     search.style.borderBottomRightRadius = "25px";
   }
@@ -25,7 +26,7 @@ const outputHtml = (matches) => {
         (match) =>
           "<div class='displayNames' id='selectedJudge' onclick='goToJudge(" +
           match.id +
-          ")'><div class='row'><div class='align-items-left info'><b><i class='bi bi-person'></i></b><span ><b>" +
+          ")'><div class='row'><div class='align-items-left info'><b><i class='bi bi-person'></i></b><span ><b> " +
           match.name +
           "</b></span></div></div><small class='locationInfo'>" +
           match.coat_name +
@@ -36,6 +37,7 @@ const outputHtml = (matches) => {
           "</small></div>"
       )
       .join("");
+    searchOption1.style.display = "none";
     matchList.innerHTML = html;
   }
 };

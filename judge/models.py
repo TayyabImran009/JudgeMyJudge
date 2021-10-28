@@ -11,6 +11,17 @@ class tags(models.Model):
         return self.name
 
 
+class judgeTags (models.Model):
+    tag = models.ForeignKey(
+        tags, on_delete=models.CASCADE, related_name='judgeTag')
+    user = models.ManyToManyField(User, blank=True, related_name='usersInTag')
+    tagTo = models.ForeignKey(
+        'judge', on_delete=models.CASCADE, related_name='judge', default=None)
+
+    def __str__(self):
+        return self.tag.name
+
+
 class categories(models.Model):
     name = models.CharField(max_length=200)
 
@@ -29,7 +40,6 @@ class judge (models.Model):
     numberOfRatings = models.IntegerField(default=0)
     obtainScore = models.FloatField(default=0)
     totalRating = models.FloatField(default=0)
-    tags = models.ManyToManyField(tags, blank=True)
 
     def __str__(self):
         return self.name
@@ -51,6 +61,9 @@ class judgeRateing (models.Model):
         max_length=200, null=True, blank=True)
     category = models.ForeignKey(
         categories, on_delete=models.CASCADE, blank=True, null=True)
+    tag1 = models.CharField(max_length=50, null=True, blank=True)
+    tag2 = models.CharField(max_length=50, null=True, blank=True)
+    tag3 = models.CharField(max_length=50, null=True, blank=True)
     total_likes = models.FloatField(default=0.0)
     total_dislikes = models.FloatField(default=0.0)
     likeBy = models.ManyToManyField(

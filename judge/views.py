@@ -161,16 +161,48 @@ def rateJudge(request, pk):
         political_perspective_of_judge = request.POST['political_perspective_of_judge']
         family_connections_in_legal_community = request.POST['family_connections_in_legal_community']
         category = categories.objects.get(name=request.POST['category'])
-
+        tag1 = request.POST['tag1']
+        tag2 = request.POST['tag2']
+        tag3 = request.POST['tag3']
         ratedTo.numberOfRatings += 1
         ratedTo.obtainScore += rating
         ratedTo.save()
 
         r = judgeRateing(user=user, ratedTo=ratedTo, rating=rating, description=description,
-                         cannon1=cannon1, cannon2=cannon2, cannon3=cannon3, cannon4=cannon4, cannon5=cannon5, political_perspective_of_judge=political_perspective_of_judge, family_connections_in_legal_community=family_connections_in_legal_community, category=category)
+                         cannon1=cannon1, cannon2=cannon2, cannon3=cannon3, cannon4=cannon4, cannon5=cannon5, political_perspective_of_judge=political_perspective_of_judge, family_connections_in_legal_community=family_connections_in_legal_community, category=category, tag1=tag1, tag2=tag2, tag3=tag3)
         r.save()
 
         updateRatting(pk)
+
+        if tag1 != "":
+            t1 = tags.objects.get(name=tag1)
+            if judgeTags.objects.filter(tag=t1, tagTo=ratedTo).exists():
+                judgeTags.objects.get(
+                    tag=t1, tagTo=ratedTo).user.add(request.user)
+            else:
+                jt = judgeTags.objects.create(tag=t1, tagTo=ratedTo)
+                jt.user.add(request.user)
+                jt.save
+
+        if tag2 != "":
+            t2 = tags.objects.get(name=tag2)
+            if judgeTags.objects.filter(tag=t2, tagTo=ratedTo).exists():
+                judgeTags.objects.get(
+                    tag=t2, tagTo=ratedTo).user.add(request.user)
+            else:
+                jt = judgeTags.objects.create(tag=t2, tagTo=ratedTo)
+                jt.user.add(request.user)
+                jt.save
+
+        if tag3 != "":
+            t3 = tags.objects.get(name=tag3)
+            if judgeTags.objects.filter(tag=t3, tagTo=ratedTo).exists():
+                judgeTags.objects.get(
+                    tag=t3, tagTo=ratedTo).user.add(request.user)
+            else:
+                jt = judgeTags.objects.create(tag=t3, tagTo=ratedTo)
+                jt.user.add(request.user)
+                jt.save
 
         ratedTo = judge.objects.get(id=pk)
         ratting = judgeRateing.objects.filter(ratedTo=ratedTo)
@@ -187,8 +219,9 @@ def rateJudge(request, pk):
             if r.user == request.user:
                 canrate = False
 
+        tagList = judgeTags.objects.filter(tagTo=ratedTo)
         context = {'judgeInfo': ratedTo,
-                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list}
+                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list, 'tagList': tagList}
         return render(request, 'judge/ratejudge.html', context)
     else:
         try:
@@ -202,8 +235,9 @@ def rateJudge(request, pk):
         for r in ratting:
             if r.user == request.user:
                 canrate = False
+        tagList = judgeTags.objects.filter(tagTo=ratedTo)
         context = {'judgeInfo': ratedTo,
-                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list}
+                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list, 'tagList': tagList}
         return render(request, 'judge/ratejudge.html', context, )
 
 
@@ -311,10 +345,16 @@ def getJudge2(request, pk):
                 canbestintrest = False
     except User.DoesNotExist:
         ratting = ''
+    listOfTags = tags.objects.all()
     category_list = categories.objects.all()
     request.session["JudgeLocation"] = judgeInfo.state
+    tagList = judgeTags.objects.filter(tagTo=judgeInfo)
+    uTag = judgeTags.objects.filter(tagTo=judgeInfo, user=request.user)
+    userTag = []
+    for uT in uTag:
+        userTag.append(uT.tag.name)
     context = {'judgeInfo': judgeInfo,
-               'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest, 'categories': category_list}
+               'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest, 'categories': category_list, 'listOfTags': listOfTags, 'tagList': tagList, 'userTag': userTag}
     return render(request, 'judge/ratejudge.html', context)
 
 

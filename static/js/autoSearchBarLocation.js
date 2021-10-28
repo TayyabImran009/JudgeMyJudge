@@ -30,6 +30,7 @@ const searchLocation = async (searchText2) => {
   if (searchText2.length <= 1) {
     matches2 = [];
     matchList2.innerHTML = "";
+    searchOption2.style.display = "block";
     search2.style.borderBottomLeftRadius = "25px";
     search2.style.borderBottomRightRadius = "25px";
   }
@@ -43,11 +44,12 @@ const outputHtml2 = (matches2) => {
         (match2) =>
           "<div class='displayLocation' id='selectedLocation'  onclick=goToLocation2('" +
           match2 +
-          "')><div class='row'><div class='align-items-left info'><b><i class='bi bi-pin-map-fill'></i></b><span ><b class='lName'>" +
+          "')><div class='row'><div class='align-items-left info'><b><i class='bi bi-pin-map-fill'></i></b><span ><b class='lName'> " +
           match2 +
           "</b></span></div></div></div>"
       )
       .join("");
+    searchOption2.style.display = "none";
     matchList2.innerHTML = html;
   }
 };
@@ -59,6 +61,9 @@ function goToLocation2(myvalue) {
   searchdiv2.style.display = "none";
   searchdiv1.style.display = "block";
   matchList2.innerHTML = "";
-  nameOfState.innerHTML = myvalue;
+  nameOfState.innerHTML =
+    "<b>State: <spam class='coloor2' id='nameOfState'>" +
+    myvalue +
+    "</spam></b>";
   console.log(myvalue);
 }

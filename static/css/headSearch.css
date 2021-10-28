@@ -4,15 +4,29 @@
   max-height: 200px;
   white-space: nowrap;
   overflow-y: auto;
+  overflow-x: hidden;
   position: fixed;
   background-color: white;
   width: 325px;
   z-index: 9999;
   border-top: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .headMatchList1::-webkit-scrollbar {
-  display: none;
+  display: block;
+  width: 12px;
+  color: #009688;
+}
+
+.headMatchList1::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #009688;
+  border-radius: 10px;
+}
+
+.headMatchList1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px #009688;
 }
 
 .headMatchList1 :hover {
@@ -46,15 +60,29 @@
   max-height: 200px;
   white-space: nowrap;
   overflow-y: auto;
+  overflow-x: hidden;
   position: fixed;
   background-color: white;
   width: 325px;
   z-index: 9999;
   border-top: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .headMatchList2::-webkit-scrollbar {
-  display: none;
+  display: block;
+  width: 12px;
+  color: #009688;
+}
+
+.headMatchList2::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #009688;
+  border-radius: 10px;
+}
+
+.headMatchList2::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px #009688;
 }
 
 .headMatchList2 :hover {
@@ -80,11 +108,11 @@
 }
 
 .displayHeadLocation {
-  height: 50px;
+  height: 60px;
   color: black;
   text-align: left;
-  padding-left: 10px;
-  padding-top: 10px;
+  padding-left: 20px;
+  padding-top: 15px;
 }
 
 .headLocationOption {
