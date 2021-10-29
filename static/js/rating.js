@@ -12,6 +12,9 @@ const filterDropdownBtn = document.getElementById("filterDropdownBtn");
 
 const category = document.getElementById("category");
 const selectCategory = document.querySelectorAll("#selectCategory");
+const selectCategoryDropdownBtn = document.getElementById(
+  "selectCategoryDropdownBtn"
+);
 
 const toggleBtnUp = document.querySelectorAll("#toggleRatingDivUp");
 const toggleBtnDown = document.querySelectorAll("#toggleRatingDivDown");
@@ -88,6 +91,7 @@ for (let i = 0; i < selectCategory.length; i++) {
   selectCategory[i].addEventListener("click", function (event) {
     var catname = event.target.getAttribute("data-category");
     category.value = catname;
+    selectCategoryDropdownBtn.innerHTML = catname;
   });
 }
 
