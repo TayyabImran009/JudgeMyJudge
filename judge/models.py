@@ -61,9 +61,12 @@ class judgeRateing (models.Model):
         max_length=200, null=True, blank=True)
     category = models.ForeignKey(
         categories, on_delete=models.CASCADE, blank=True, null=True)
-    tag1 = models.CharField(max_length=50, null=True, blank=True)
-    tag2 = models.CharField(max_length=50, null=True, blank=True)
-    tag3 = models.CharField(max_length=50, null=True, blank=True)
+    tag1 = models.CharField(max_length=50, null=True,
+                            blank=True)
+    tag2 = models.CharField(max_length=50, null=True,
+                            blank=True)
+    tag3 = models.CharField(max_length=50, null=True,
+                            blank=True)
     total_likes = models.FloatField(default=0.0)
     total_dislikes = models.FloatField(default=0.0)
     likeBy = models.ManyToManyField(

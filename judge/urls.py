@@ -15,7 +15,7 @@ urlpatterns = [
     path('getJudgeByLocation/<str:name>', views.getJudgeByLocation,
          name="getJudgeByLocation"),
 
-    path('getJudge/', views.getJudge, name="getJudge"),
+    #     path('getJudge/', views.getJudge, name="getJudge"),
 
     path('rateJudge/<str:pk>/', views.rateJudge, name="rateJudge"),
 

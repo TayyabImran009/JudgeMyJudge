@@ -93,7 +93,7 @@ def getJudgeByLocation(request, name):
     return render(request, 'judge/judgesByLocation.html', context)
 
 
-def getJudge(request):
+# def getJudge(request):
     profile = ""
     user = request.user
     canrate = True
@@ -219,10 +219,7 @@ def rateJudge(request, pk):
             if r.user == request.user:
                 canrate = False
 
-        tagList = judgeTags.objects.filter(tagTo=ratedTo)
-        context = {'judgeInfo': ratedTo,
-                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list, 'tagList': tagList}
-        return render(request, 'judge/ratejudge.html', context)
+        return redirect('/getJudge2/'+str(ratedTo.id))
     else:
         try:
             bestIntrest = bestInterest.objects.filter(ratedTo=pk)
@@ -236,9 +233,7 @@ def rateJudge(request, pk):
             if r.user == request.user:
                 canrate = False
         tagList = judgeTags.objects.filter(tagTo=ratedTo)
-        context = {'judgeInfo': ratedTo,
-                   'profile': user, 'canrate': canrate, 'canbestintrest': canbestintrest, 'ratting': ratting, 'categories': category_list, 'tagList': tagList}
-        return render(request, 'judge/ratejudge.html', context, )
+        return redirect('/getJudge2/'+str(ratedTo.id))
 
 
 def bestIntrest(request, pk):
@@ -256,14 +251,14 @@ def bestIntrest(request, pk):
             ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
             context = {'judgeInfo': judgeInfo,
                        'profile': profile, 'ratting': ratting}
-            return render(request, 'judge/ratejudge.html', context)
+            return redirect('/getJudge2/'+str(judgeInfo.id))
     else:
         judgeInfo = judge.objects.get(id=pk)
         profile = UserProfile.objects.get(user=request.user)
         ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
         context = {'judgeInfo': judgeInfo,
                    'profile': profile, 'ratting': ratting}
-        return render(request, 'judge/ratejudge.html', context)
+        return redirect('/getJudge2/'+str(judgeInfo.id))
 
 
 def editRatting(request, pk):
@@ -275,9 +270,18 @@ def editRatting(request, pk):
     profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
         form = judgeRateingForm(request.POST, instance=inst)
-        form.save()
+        print(form.errors)
         if form.is_valid():
-            form.save()
+            rtForm = form.save(commit=False)
+            if rtForm.tag1 == None:
+                rtForm.tag1 = ""
+            if rtForm.tag2 == None:
+                rtForm.tag2 = ""
+            if rtForm.tag3 == None:
+                rtForm.tag3 = ""
+            rtForm.category = categories.objects.get(
+                name=request.POST['category'])
+            rtForm.save()
             ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
             profile = UserProfile.objects.get(user=request.user)
             ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
@@ -297,22 +301,62 @@ def editRatting(request, pk):
 
             except User.DoesNotExist:
                 bestIntrest = ''
-            context = {'judgeInfo': judgeInfo,
-                       'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
-            return render(request, 'judge/ratejudge.html', context)
-    else:
-        ratting = judgeRateing.objects.filter(ratedTo=judgeInfo)
-        total_num = (len(ratting))*5
-        obtain_num = 0
-        for r in ratting:
-            obtain_num += r.rating
-            if r.user == request.user:
-                canrate = False
-        if total_num != 0:
-            total_rating = (obtain_num/total_num)*5
-        context = {'judgeInfo': judgeInfo,
-                   'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest}
-        return render(request, 'judge/ratejudge.html', context)
+
+            tag1 = request.POST['tag1']
+            tag2 = request.POST['tag2']
+            tag3 = request.POST['tag3']
+
+            t1 = None
+            t2 = None
+            t3 = None
+
+            if(tag1 != ""):
+                t1 = tags.objects.get(name=tag1)
+            if(tag2 != ""):
+                t2 = tags.objects.get(name=tag2)
+            if(tag3 != ""):
+                t3 = tags.objects.get(name=tag3)
+
+            if tag1 != "":
+                if judgeTags.objects.filter(tag=t1, tagTo=judgeInfo).exists():
+                    judgeTags.objects.get(
+                        tag=t1, tagTo=judgeInfo).user.add(request.user)
+                else:
+                    jt = judgeTags.objects.create(tag=t1, tagTo=judgeInfo)
+                    jt.user.add(request.user)
+                    jt.save
+
+            if tag2 != "":
+                if judgeTags.objects.filter(tag=t2, tagTo=judgeInfo).exists():
+                    judgeTags.objects.get(
+                        tag=t2, tagTo=judgeInfo).user.add(request.user)
+                else:
+                    jt = judgeTags.objects.create(tag=t2, tagTo=judgeInfo)
+                    jt.user.add(request.user)
+                    jt.save
+
+            if tag3 != "":
+                if judgeTags.objects.filter(tag=t3, tagTo=judgeInfo).exists():
+                    judgeTags.objects.get(
+                        tag=t3, tagTo=judgeInfo).user.add(request.user)
+                else:
+                    jt = judgeTags.objects.create(tag=t3, tagTo=judgeInfo)
+                    jt.user.add(request.user)
+                    jt.save
+
+            jt = judgeTags.objects.filter(user=request.user, tagTo=judgeInfo)
+
+            chkjt = [t1, t2, t3]
+
+            for cjt in jt:
+                if cjt.tag not in chkjt:
+                    cjt.user.remove(request.user)
+                    if cjt.user.exists():
+                        print("Yes It has something")
+                    else:
+                        cjt.delete()
+            return redirect('/getJudge2/'+str(judgeInfo.id))
+    return redirect('/getJudge2/'+str(judgeInfo.id))
 
 
 def getJudge2(request, pk):

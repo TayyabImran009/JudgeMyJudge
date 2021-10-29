@@ -237,6 +237,36 @@
                     </div>
 
                     <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Category</label>
+                      <div class="col-md-8 col-lg-9">
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Category
+                        </button>
+                        <ul class="dropdown-menu reviewFilterul" aria-labelledby="categoryDropdownBtn">
+                          {% for c in categories %}
+                          <li class="reviewFilter" id="selectCategory" data-category={{c.name}}>{{c.name}}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                      <div class="col-md-8 col-lg-9">
+                        
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Tags</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div>
+                          {% for t in listOfTags %}
+                            <span class="judgeRatingTags" id="judgeRatingTags"  data-tagName={{t.name}}>{{t.name}}</span>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Description</label>
                         <div class="col-md-8 col-lg-9">
                           <input name="description" type="text" class="form-control" id="description">
@@ -292,41 +322,12 @@
                         </div>
                       </div>
 
-                      <div class="row mb-3">
-                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Tags</label>
-                        <div class="col-md-8 col-lg-9">
-                          <div>
-                            {% for t in listOfTags %}
-                              <span class="judgeRatingTags" id="judgeRatingTags"  data-tagName={{t.name}}>{{t.name}}</span>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row mb-3">
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Category
-                          </button>
-                          <ul class="dropdown-menu reviewFilterul" aria-labelledby="categoryDropdownBtn">
-                            {% for c in categories %}
-                            <li class="reviewFilter" id="selectCategory" data-category={{c.name}}>{{c.name}}</li>
-                            {% endfor %}
-                          </ul>
-                        </div>
-                        <div class="col-md-8 col-lg-9">
-                          
-                        </div>
-                      </div>
-
                       <input type="hidden" class="tag1" name="tag1" id="tag1" value="">
                       <input type="hidden" class="tag2" name="tag2" id="tag2" value="">
                       <input type="hidden" class="tag3" name="tag3" id="tag3" value="">
 
                       <input type="hidden" class="category" name="category" id="category" value="">
-                      <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">
-
-                    
+                      <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">                   
 
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Rate</button>
@@ -380,6 +381,40 @@
                             <input name="rating" type="hidden" id="rating" value="{{r.rating}}">
 
                         </div> 
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Category</label>
+                      <div class="col-md-8 col-lg-9">
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="updateCategoryDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                          {{r.category}}
+                        </button>
+                        <ul class="dropdown-menu reviewFilterul" aria-labelledby="updateCategoryDropdownBtn">
+                          {% for c in categories %}
+                          <li class="reviewFilter" id="updateCategory" data-category={{c.name}}>{{c.name}}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                      <div class="col-md-8 col-lg-9">
+                        
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Tags</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div>
+                            {% for lt in listOfTags %}
+                              {% if lt.name in userTag %}
+                                <span class="updateSelectedTag" id="updateTag" data-tagName={{lt.name}}>{{lt.name}}</span>
+                              {% else %}
+                                <span class="updateJudgeRatingTags" id="updateTag" data-tagName={{lt.name}}>{{lt.name}}</span>
+                              {% endif %}
+                            {% endfor %}
+                        </div>
                       </div>
                     </div>
 
@@ -439,28 +474,13 @@
                         </div>
                       </div>
 
-                      <div class="row mb-3">
-                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Tags</label>
-                        <div class="col-md-8 col-lg-9">
-                          <div>
-                              {% for lt in listOfTags %}
-                                {% if lt.name in userTag %}
-                                  <span class="updateSelectedTag" id="updateTag" data-tagName={{lt.name}}>{{lt.name}}</span>
-                                {% else %}
-                                  <span class="updateJudgeRatingTags" id="updateTag" data-tagName={{lt.name}}>{{lt.name}}</span>
-                                {% endif %}
-                              {% endfor %}
-                          </div>
-                        </div>
-                      </div>
+                      <input name="tag1" type="hidden" id="updateTag1" value={{r.tag1}}>
+                      <input name="tag2" type="hidden" id="updateTag2" value={{r.tag2}}>
+                      <input name="tag3" type="hidden" id="updateTag3" value={{r.tag3}}>
 
-                      <input name="tag1" type="hidden" id="updateTag1" value="{{judgeInfo.tag1}}">
-                      <input name="tag2" type="hidden" id="updateTag2" value="{{judgeInfo.tag2}}">
-                      <input name="tag3" type="hidden" id="updateTag3" value="{{judgeInfo.tag3}}">
+                      <input type="hidden" class="Editcategory" name="category" id="Editcategory" value={{r.category}}>
 
                       <input name="judge_id" type="hidden" id="judge_id" value="{{judgeInfo.id}}">
-
-                    
 
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Update</button>

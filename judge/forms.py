@@ -11,5 +11,5 @@ class bestInterestForm(forms.ModelForm):
 class judgeRateingForm(forms.ModelForm):
     class Meta:
         model = judgeRateing
-        exclude = ('user', 'ratedTo', 'total_likes',
+        exclude = ('user', 'ratedTo', 'category', 'total_likes',
                    'total_dislikes', 'likeBy', 'dislikeBy')

@@ -22,59 +22,7 @@ const tag1 = document.getElementById("tag1");
 const tag2 = document.getElementById("tag2");
 const tag3 = document.getElementById("tag3");
 
-const updateTag1 = document.getElementById("updateTag1");
-const updateTag2 = document.getElementById("updateTag2");
-const updateTag3 = document.getElementById("updateTag3");
-
-const updateTag = document.querySelectorAll("#updateTag");
-
 let tagCount = 0;
-
-for (let i = 0; i < updateTag.length; i++) {
-  updateTag[i].addEventListener("click", function (event) {});
-
-  if (tagCount < 3) {
-    if (updateTag[i].classList.contains("updateJudgeRatingTags")) {
-      updateTag[i].classList.add("updateSelectedTag", "nothing");
-      updateTag[i].classList.remove("updateJudgeRatingTags", "nothing");
-      tagCount++;
-      updateTag(updateTag[i].getAttribute("data-tagName"));
-    } else {
-      updateTag[i].classList.remove("updateSelectedTag", "nothing");
-      updateTag[i].classList.add("updateJudgeRatingTags", "nothing");
-      tagCount--;
-      updateTag(judgeRatingTags[i].getAttribute("data-tagName"));
-    }
-  } else {
-    if (updateTag[i].classList.contains("updateSelectedTag")) {
-      updateTag[i].classList.remove("updateSelectedTag", "nothing");
-      updateTag[i].classList.add("updateJudgeRatingTags", "nothing");
-      tagCount--;
-      removeUpdateTag(judgeRatingTags[i].getAttribute("data-tagName"));
-    }
-  }
-}
-
-function updateTag(tag) {
-  if (updateTag1.value == "") {
-    updateTag1.value = tag;
-  } else if (updateTag2.value == "") {
-    updateTag2.value = tag;
-  } else {
-    updateTag3.value = tag;
-  }
-}
-
-function removeUpdateTag(tag) {
-  if (updateTag1.value == tag) {
-    updateTag1.value = "";
-  } else if (updateTag2.value == tag) {
-    updateTag2.value = "";
-  } else {
-    updateTag3.value = "";
-  }
-}
-
 for (let i = 0; i < judgeRatingTags.length; i++) {
   judgeRatingTags[i].addEventListener("click", function (event) {
     if (tagCount < 3) {
@@ -222,5 +170,85 @@ function dislikeReview(Rid, i) {
 
       dislikebtn[i].style.display = "none";
     },
+  });
+}
+
+const updateTag = document.querySelectorAll("#updateTag");
+
+const updateTag1 = document.getElementById("updateTag1");
+const updateTag2 = document.getElementById("updateTag2");
+const updateTag3 = document.getElementById("updateTag3");
+
+let updateTagsCount = 0;
+
+if (updateTag1.value != "") {
+  updateTagsCount++;
+}
+if (updateTag2.value != "") {
+  updateTagsCount++;
+}
+if (updateTag3.value != "") {
+  updateTagsCount++;
+}
+
+for (let i = 0; i < updateTag.length; i++) {
+  updateTag[i].addEventListener("click", function (event) {
+    if (updateTagsCount < 3) {
+      if (updateTag[i].classList.contains("updateJudgeRatingTags")) {
+        updateTag[i].classList.add("updateSelectedTag", "nothing");
+        updateTag[i].classList.remove("updateJudgeRatingTags", "nothing");
+        updateTagsCount++;
+        updateAddTag(updateTag[i].getAttribute("data-tagName"));
+      } else {
+        updateTag[i].classList.remove("updateSelectedTag", "nothing");
+        updateTag[i].classList.add("updateJudgeRatingTags", "nothing");
+        updateTagsCount--;
+        updateRemoveTag(updateTag[i].getAttribute("data-tagName"));
+      }
+    } else {
+      if (updateTag[i].classList.contains("updateSelectedTag")) {
+        updateTag[i].classList.remove("updateSelectedTag", "nothing");
+        updateTag[i].classList.add("updateJudgeRatingTags", "nothing");
+        updateTagsCount--;
+        updateRemoveTag(updateTag[i].getAttribute("data-tagName"));
+      }
+    }
+  });
+}
+
+function updateAddTag(tag) {
+  if (updateTag1.value == "") {
+    updateTag1.value = tag;
+  } else if (updateTag2.value == "") {
+    updateTag2.value = tag;
+  } else {
+    updateTag3.value = tag;
+  }
+}
+
+function updateRemoveTag(tag) {
+  if (updateTag1.value == tag) {
+    updateTag1.value = "";
+  } else if (updateTag2.value == tag) {
+    updateTag2.value = "";
+  } else {
+    updateTag3.value = "";
+  }
+}
+
+const updateCategory = document.querySelectorAll("#updateCategory");
+
+const updateCategoryInput = document.getElementById("Editcategory");
+
+const updateCategoryDropdownBtn = document.getElementById(
+  "updateCategoryDropdownBtn"
+);
+
+for (let i = 0; i < updateCategory.length; i++) {
+  updateCategory[i].addEventListener("click", function (event) {
+    console.log(updateCategoryInput);
+    var catname = event.target.getAttribute("data-category");
+    updateCategoryInput.value = catname;
+    updateCategoryDropdownBtn.innerHTML = catname;
   });
 }
