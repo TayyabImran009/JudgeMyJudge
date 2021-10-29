@@ -31,7 +31,7 @@ class categories(models.Model):
 
 class judge (models.Model):
     location = models.CharField(max_length=100, null=True, blank=True)
-    state = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, default="Virginia")
     name = models.CharField(
         max_length=100, null=True, blank=True)
     position = models.CharField(max_length=100, null=True, blank=True)
