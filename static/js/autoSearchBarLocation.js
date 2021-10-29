@@ -62,8 +62,6 @@ function goToLocation2(myvalue) {
   searchdiv1.style.display = "block";
   matchList2.innerHTML = "";
   nameOfState.innerHTML =
-    "<b>State: <spam class='coloor2' id='nameOfState'>" +
-    myvalue +
-    "</spam></b>";
+    "<b><spam class='coloor2' id='nameOfState'>" + myvalue + "</spam></b>";
   console.log(myvalue);
 }

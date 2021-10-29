@@ -393,10 +393,11 @@ def getJudge2(request, pk):
     category_list = categories.objects.all()
     request.session["JudgeLocation"] = judgeInfo.state
     tagList = judgeTags.objects.filter(tagTo=judgeInfo)
-    uTag = judgeTags.objects.filter(tagTo=judgeInfo, user=request.user)
     userTag = []
-    for uT in uTag:
-        userTag.append(uT.tag.name)
+    if request.user.is_authenticated:
+        uTag = judgeTags.objects.filter(tagTo=judgeInfo, user=request.user)
+        for uT in uTag:
+            userTag.append(uT.tag.name)
     context = {'judgeInfo': judgeInfo,
                'profile': profile, 'ratting': ratting, 'total_rating': total_rating, 'canrate': canrate, 'canbestintrest': canbestintrest, 'categories': category_list, 'listOfTags': listOfTags, 'tagList': tagList, 'userTag': userTag}
     return render(request, 'judge/ratejudge.html', context)
